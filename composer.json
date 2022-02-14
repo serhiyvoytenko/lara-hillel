@@ -1,0 +1,13 @@
+{
+    "name": "www-data/www",
+    "description": "Laravel project for hillel",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Voitenko Serhii",
+            "email": "voitenko.serhii@dn.pebs.biz"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
