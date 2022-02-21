@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('products', static function (Blueprint $table) {
             $table->foreign('image_id')->references('id')->on('images');
@@ -23,7 +23,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('products', static function (Blueprint $table) {
             $table->dropForeign('products_image_id_foreign');

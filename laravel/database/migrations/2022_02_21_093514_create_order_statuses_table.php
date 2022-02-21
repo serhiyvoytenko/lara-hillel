@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', static function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles');
+        Schema::create('order_statuses', static function (Blueprint $table) {
+            $table->id();
+            $table->string('status')->unique();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', static function (Blueprint $table) {
-            $table->dropForeign('users_role_id_foreign');
-        });
+        Schema::dropIfExists('order_statuses');
     }
 };
