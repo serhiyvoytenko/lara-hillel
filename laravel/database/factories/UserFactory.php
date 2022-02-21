@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,13 +16,20 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $role = Role::get()->where('name', '=', config('constants.db.roles.customer'))->first();
+
         return [
-            'name' => $this->faker->name(),
+            'role_id' => $role->id,
+            'name' => $this->faker->firstName(),
+            'surname' => $this->faker->lastName(),
+            'birthdate' => $this->faker->dateTimeBetween('-70 years', '-16 years'),
+            'phone' => $this->faker->e164PhoneNumber,
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+//            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => $this->faker->password(8,10), // password
             'remember_token' => Str::random(10),
         ];
     }
