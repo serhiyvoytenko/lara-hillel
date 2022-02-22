@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('images', static function (Blueprint $table) {
             $table->id();
-            $table->binary('thumbnail');
-            $table->binary('large_image');
-            $table->binary('medium_image');
-            $table->binary('video');
+            $table->string('thumbnail');
+            $table->string('large_image');
+            $table->string('medium_image');
+            $table->string('video');
             $table->timestamps();
         });
     }
