@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $x = 1 + "1%" + "$1";
+        return view('home', $x);
     }
 }
