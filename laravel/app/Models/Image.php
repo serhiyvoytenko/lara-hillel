@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereVideo($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Product|null $products
  */
 class Image extends Model
 {

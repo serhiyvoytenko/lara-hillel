@@ -46,6 +46,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Order|null $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
  */
 class User extends Authenticatable
 {
@@ -82,9 +85,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles(): HasMany
+    public function role(): BelongsTo
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function orders(): BelongsTo

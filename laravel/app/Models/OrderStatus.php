@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Order|null $orders
  */
 class OrderStatus extends Model
 {

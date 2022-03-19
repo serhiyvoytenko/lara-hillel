@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Role
@@ -21,13 +22,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User|null $users
  */
 class Role extends Model
 {
     use HasFactory;
 
-    public function users(): BelongsTo
+    public function users(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 }

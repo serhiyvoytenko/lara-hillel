@@ -39,6 +39,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property-read int|null $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class Product extends Model
 {

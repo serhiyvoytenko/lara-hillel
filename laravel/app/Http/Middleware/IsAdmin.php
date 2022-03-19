@@ -3,7 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class IsAdmin
 {
@@ -12,10 +15,14 @@ class IsAdmin
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
-        return $next($request);
+        $id = Auth::id();
+        if(check_role($id)){
+            return $next($request);
+        }
+        return redirect('/error');
     }
 }

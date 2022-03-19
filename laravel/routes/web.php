@@ -22,3 +22,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/error', [App\Http\Controllers\HomeController::class, 'error'])->name('error');
+
+Route::prefix("admin")->middleware(['auth', 'isAdmin'])->group(static function () {
+    Route::resource('/product', \App\Http\Controllers\Admin\ProductController::class)->except('show');
+});
