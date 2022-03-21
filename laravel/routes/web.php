@@ -28,3 +28,4 @@ Route::get('/error', [App\Http\Controllers\HomeController::class, 'error'])->nam
 Route::prefix("admin")->middleware(['auth', 'isAdmin'])->group(static function () {
     Route::resource('/product', \App\Http\Controllers\Admin\ProductController::class)->except('show');
 });
+

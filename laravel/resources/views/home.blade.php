@@ -16,7 +16,9 @@
 
                         {{ __('You are logged in!') }}
                         <hr>
-                        <a href="admin/product">Add product</a>
+                        <a href="admin/product">View product</a><br>
+                        <a href="admin/product/create">Create product</a><br>
+{{--                        <a href="admin/product">View product</a><br>--}}
                     </div>
                 </div>
             </div>
