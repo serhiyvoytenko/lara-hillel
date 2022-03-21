@@ -7,7 +7,12 @@
                 <form class="row g-3 needs-validation" novalidate method="POST">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="title">
+                        <input type="text"
+                               class="form-control"
+                               aria-label="Sizing example input"
+                               aria-describedby="inputGroup-sizing-default"
+                               name="title"
+                                value="{{old("title")}}">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Description</span>
@@ -42,7 +47,7 @@
                         <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="thumbnail">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="images" multiple>
+                        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" name="images[]" multiple>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Submit form</button>
