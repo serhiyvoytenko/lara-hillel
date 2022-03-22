@@ -20,7 +20,8 @@
                 @endif
             </div>
             <div class="col-md-8">
-                <form class="row g-3 needs-validation" novalidate method="POST" action="{{route('admin.product.store')}}" enctype="multipart/form-data">
+                <form class="row g-3 needs-validation" novalidate method="POST"
+                      action="{{route('admin.product.store')}}" enctype="multipart/form-data">
                 @csrf <!-- {{ csrf_field() }} -->
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
@@ -57,13 +58,14 @@
                                value="{{old("sku")}}">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
-                        <input type="text"
-                               class="form-control"
-                               aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default"
-                               name="category"
-                               value="{{old("category")}}">
+                        <button class="btn btn-outline-secondary" type="button">Select category</button>
+                        <select class="form-select" id="inputGroupSelect03"
+                                aria-label="Example select with button addon" name="category">
+                            <option selected value="{{old("category")}}">Choose...</option>
+                            @foreach($categories as $category)
+                                <option value="{{$category->title }}">{{$category->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Price</span>

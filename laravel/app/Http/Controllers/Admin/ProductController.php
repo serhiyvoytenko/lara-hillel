@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -30,7 +31,8 @@ class ProductController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('admin/create-product');
+        $categories = Category::all();
+        return response()->view('admin/create-product', compact('categories'));
     }
 
     /**
@@ -41,7 +43,6 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-//        dd($request);
         $fields = $request->validated();
         dd($fields);
     }
