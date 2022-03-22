@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -19,9 +20,7 @@ class ProductController extends Controller
     {
         $products = Product::paginate(20);
 
-        return response()->view('admin/view-products', [
-            'products' => $products,
-        ]);
+        return response()->view('admin/view-products', compact('products'));
     }
 
     /**
@@ -40,9 +39,11 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+//        dd($request);
+        $fields = $request->validated();
+        dd($fields);
     }
 
 //    /**
