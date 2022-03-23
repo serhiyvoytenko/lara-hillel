@@ -44,7 +44,14 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $fields = $request->validated();
-        dd($fields);
+        $category = Category::where('title', $fields['category'])->first();
+        $fields['image_id']= '1';
+        unset($fields['images'], $fields['thumbnail']);
+
+//        dd($fields, $category);
+        $category?->products()->create($fields);
+
+        return redirect('admin.product.index');
     }
 
 //    /**
