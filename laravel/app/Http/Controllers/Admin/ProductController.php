@@ -48,9 +48,8 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): Redirector|RedirectResponse|Application
     {
         $fields = $request->validated();
-//        $fields['image_id'] = '1';//temp
+        $fields['thumbnail'] = '/tmp';//temp
         $images = $fields['images'];
-//dd($fields);
 //        unset($fields['images'], $fields['thumbnail']);//temp
 
         try {

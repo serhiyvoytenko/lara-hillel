@@ -60,7 +60,7 @@ class Product extends Model
         'price',
         'discount',
         'count',
-        'image_id',
+        'thumbnail',
     ];
 
     public function category(): BelongsTo
