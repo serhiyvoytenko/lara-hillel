@@ -27,7 +27,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 1, 100000),
             'discount' => $this->faker->randomFloat(2, 1, 20),
             'count' => $this->faker->randomFloat(0, 1, 100000),
-            'image_id' => Image::inRandomOrder()->first(),
+            'thumbnail' => $this->faker->imageUrl(),
         ];
     }
 }

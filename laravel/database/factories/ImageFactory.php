@@ -17,10 +17,9 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'thumbnail' => $this->faker->image,
-            'large_image' => $this->faker->image,
-            'medium_image' => $this->faker->image,
-            'video' => $this->faker->image,
+            'path' => $this->faker->image,
+            'imageable_id' => $this->faker->numberBetween(1,20),
+            'imageable_type' => $this->faker->text(30),
         ];
     }
 }

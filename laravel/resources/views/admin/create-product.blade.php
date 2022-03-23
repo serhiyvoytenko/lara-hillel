@@ -19,6 +19,13 @@
                     </div>
                 @endif
             </div>
+            <div class="col-md-12">
+                @if (session('warn'))
+                    <div class="alert alert-warning" role="alert">
+                        {{ session('warn') }}
+                    </div>
+                @endif
+            </div>
             <div class="col-md-8">
                 <form class="row g-3 needs-validation" novalidate method="POST"
                       action="{{route('admin.product.store')}}" enctype="multipart/form-data">

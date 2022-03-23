@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -38,20 +42,37 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return Response
+     * @param StoreProductRequest $request
+     * @return Application|RedirectResponse|Redirector
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): Redirector|RedirectResponse|Application
     {
         $fields = $request->validated();
-        $category = Category::where('title', $fields['category'])->first();
-        $fields['image_id']= '1';
-        unset($fields['images'], $fields['thumbnail']);
+//        $fields['image_id'] = '1';//temp
+        $images = $fields['images'];
+//dd($fields);
+//        unset($fields['images'], $fields['thumbnail']);//temp
 
-//        dd($fields, $category);
-        $category?->products()->create($fields);
+        try {
 
-        return redirect('admin.product.index');
+            DB::beginTransaction();
+
+            $category = Category::where('title', $fields['category'])->first();
+            $product = $category?->products()->create($fields);
+
+            DB::commit();
+
+//            dd($product);
+            return redirect()->route('admin.product.index')
+                ->with('status', "Product {$fields['title']} created successfully");
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            logs()->warning($e->getMessage());
+            return redirect()->back()->with('warn', 'Error, see log');
+        }
     }
 
 //    /**
@@ -79,7 +100,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return Response
      */
