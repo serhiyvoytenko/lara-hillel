@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use App\Services\Contracts\FileStorageServiceInterface;
 use Storage;
 
-class FileStorageService implements FileStorageServiceInterface
+class  FileStorageService implements FileStorageServiceInterface
 {
 
     /**
@@ -29,15 +29,17 @@ class FileStorageService implements FileStorageServiceInterface
             $fileData = explode('.', $file);
         }
 
-        $filePath = 'public/' . implode('/', str_split(Str::random(8), 2))
-            . '/'
-            . Str::random()
-            . '.'
+        $randomPath = implode('/', str_split(Str::random(8), 2));
+
+        $filePath = 'public/' . $randomPath;
+        File::makeDirectory('storage/' . $randomPath, 0755, true);
+
+        $fullFilePath = $filePath . '/' . Str::random() . '.'
             . (!$is_string ? $file->getClientOriginalExtension() : $fileData[1]);
 
-        Storage::put($filePath, File::get($file), 'public');
+        Storage::put($fullFilePath, File::get($file), 'public');
 
-        return $filePath;
+        return $fullFilePath;
     }
 
     public static function remove(string $file): bool
