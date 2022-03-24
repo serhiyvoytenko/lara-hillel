@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
+use App\Services\FileStorageService;
 
 /**
  * App\Models\Product
@@ -21,8 +25,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $discount
  * @property int $count
  * @property int $image_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -40,11 +44,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categories
+ * @property-read Collection|Category[] $categories
  * @property-read int|null $categories_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read Collection|Image[] $images
  * @property-read int|null $images_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
  */
 class Product extends Model
@@ -68,13 +72,24 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function images(): HasMany
+    public function images(): MorphMany
     {
-        return $this->hasMany(Image::class);
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function setThumbnailAttribute($image): void
+    {
+        if (!empty($this->attributes['thumbnail'])) {
+            FileStorageService::remove($this->attributes['thumbnail']);
+        }
+        $this->attributes['thumbnail'] = FileStorageService::upload($image);
     }
 }

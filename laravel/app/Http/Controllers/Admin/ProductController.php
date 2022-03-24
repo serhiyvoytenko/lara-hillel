@@ -48,9 +48,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): Redirector|RedirectResponse|Application
     {
         $fields = $request->validated();
-        $fields['thumbnail'] = '/tmp';//temp
         $images = $fields['images'];
-//        unset($fields['images'], $fields['thumbnail']);//temp
 
         try {
 
@@ -61,7 +59,6 @@ class ProductController extends Controller
 
             DB::commit();
 
-//            dd($product);
             return redirect()->route('admin.product.index')
                 ->with('status', "Product {$fields['title']} created successfully");
 

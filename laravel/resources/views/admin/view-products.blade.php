@@ -30,7 +30,7 @@
                     <tbody>
                     @foreach($products as $product)
                     <tr>
-                        <td>{{$product->image_id}}</td>
+                        <td class="text-center" scope="col"><img src="{{ Storage::url($product->thumbnail) }}" width="75" height="100" alt=""></td>
                         <td>{{$product->title}}</td>
                         <td>{{$product->short_description}}</td>
                         <td>{{$product->sku}}</td>
