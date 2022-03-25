@@ -34,7 +34,7 @@ class StoreProductRequest extends FormRequest
             'discount' => ['required', 'min:1', 'max:3'],
             'count' => ['required', 'min:1', 'max:9'],
             'thumbnail' => ['required', 'image:jpg,jpeg,bmp,png'],
-            'images' => ['required', 'array'],
+            'images.*' => ['image:jpeg,png'],
         ];
     }
 }

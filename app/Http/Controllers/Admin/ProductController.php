@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use App\Services\Models\ImageStorage;
 
 class ProductController extends Controller
 {
@@ -48,7 +49,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request): Redirector|RedirectResponse|Application
     {
         $fields = $request->validated();
-        $images = $fields['images'];
+        $images = $fields['images'] ?? [];
 
         try {
 
@@ -56,6 +57,7 @@ class ProductController extends Controller
 
             $category = Category::where('title', $fields['category'])->first();
             $product = $category?->products()->create($fields);
+            ImageStorage::attach($product, 'images', $images);
 
             DB::commit();
 
@@ -90,7 +92,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        return response()->view('admin/edit-product', compact('product'));
     }
 
     /**
@@ -109,11 +112,14 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect()->back()->with('status', 'Product "' . $product->getAttribute('title') . '" was successfully deleted');
     }
 
 }
