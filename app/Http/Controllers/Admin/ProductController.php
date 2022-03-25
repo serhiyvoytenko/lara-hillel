@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\FileStorageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +27,7 @@ class ProductController extends Controller
     {
         $products = Product::paginate(20);
 
-        return response()->view('admin/view-products', compact('products'));
+        return response()->view('admin.view-products', compact('products'));
     }
 
     /**
@@ -90,10 +91,13 @@ class ProductController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(int $id): Response
     {
         $product = Product::find($id);
-        return response()->view('admin/edit-product', compact('product'));
+        $categories = Category::get()->all();
+        $images = $product->images()->get()->all();
+
+        return response()->view('admin.edit-product', compact('product', 'categories', 'images'));
     }
 
     /**
@@ -101,11 +105,15 @@ class ProductController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return Application|Redirector|RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(StoreProductRequest $request, int $id): Application|RedirectResponse|Redirector
     {
-        //
+        $fields = $request->validated();
+        $images = $fields['images'] ?? [];
+        //TODO need fix update
+
+        return redirect(route('admin.product.index'));
     }
 
     /**
@@ -117,6 +125,13 @@ class ProductController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $product = Product::find($id);
+        $images = $product->images()->get();
+
+        foreach ($images as $image) {
+            FileStorageService::remove($image->getAttribute('path'));
+        }
+
+        $product->images()->delete();
         $product->delete();
 
         return redirect()->back()->with('status', 'Product "' . $product->getAttribute('title') . '" was successfully deleted');
