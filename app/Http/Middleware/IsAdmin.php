@@ -13,11 +13,11 @@ class IsAdmin
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return RedirectResponse
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return RedirectResponse|Response
      */
-    public function handle(Request $request, Closure $next): RedirectResponse
+    public function handle(Request $request, Closure $next): RedirectResponse|Response
     {
         $id = Auth::id();
         if(check_role($id)){
