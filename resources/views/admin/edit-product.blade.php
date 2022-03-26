@@ -120,7 +120,10 @@
                                            id="thumbnail"
                                            aria-describedby="inputGroupFileAddon04"
                                            aria-label="Upload"
-                                           name="thumbnail">
+                                           name="thumbnail"
+                                           value="{{$product->thumbnail}}"
+                                    placeholder="{{$product->thumbnail}}"
+                                    >
                                 </div>
                             </div>
                         </div>

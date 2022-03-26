@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\FileStorageService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use App\Services\Models\ImageStorage;
+use Throwable;
 
 class ProductController extends Controller
 {
@@ -38,16 +36,18 @@ class ProductController extends Controller
     public function create(): Response
     {
         $categories = Category::all();
-        return response()->view('admin/create-product', compact('categories'));
+
+        return response()->view('admin.create-product', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param StoreProductRequest $request
-     * @return Application|RedirectResponse|Redirector
+     * @return RedirectResponse
+     * @throws Throwable
      */
-    public function store(StoreProductRequest $request): Redirector|RedirectResponse|Application
+    public function store(StoreProductRequest $request): RedirectResponse
     {
         $fields = $request->validated();
         $images = $fields['images'] ?? [];
@@ -65,7 +65,7 @@ class ProductController extends Controller
             return redirect()->route('admin.product.index')
                 ->with('status', "Product {$fields['title']} created successfully");
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             DB::rollBack();
 
@@ -103,17 +103,36 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateProductRequest $request
      * @param int $id
-     * @return Application|Redirector|RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(StoreProductRequest $request, int $id): Application|RedirectResponse|Redirector
+    public function update(UpdateProductRequest $request, int $id): RedirectResponse
     {
+        $product = Product::find($id);
         $fields = $request->validated();
+        $fields['category_id'] = Category::where('title', $fields['category'])->first()->id;
         $images = $fields['images'] ?? [];
-        //TODO need fix update
 
-        return redirect(route('admin.product.index'));
+        try {
+
+            DB::beginTransaction();
+
+            $product->update($fields);
+            ImageStorage::attach($product, 'images', $images);
+
+            DB::commit();
+
+            return redirect()->route('admin.product.index')
+                ->with('status', "Product {$fields['title']} updated successfully");
+
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+
+            logs()->warning($e->getMessage());
+            return redirect()->back()->with('warn', 'Error, see log');
+        }
     }
 
     /**
