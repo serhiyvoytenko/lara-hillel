@@ -14,7 +14,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && check_role((int)Auth::id());
+        return auth()->check() && check_role(Auth::id());
     }
 
     /**
@@ -33,7 +33,7 @@ class StoreProductRequest extends FormRequest
             'price' => ['required', 'min:1', 'max:9'],
             'discount' => ['required', 'min:1', 'max:3'],
             'count' => ['required', 'min:1', 'max:9'],
-            'thumbnail' => ['required', 'image:jpg,jpeg,bmp,png'|'string'],
+            'thumbnail' => ['required', 'image:jpg,jpeg,bmp,png'],
             'images.*' => ['image:jpeg,png'],
         ];
     }

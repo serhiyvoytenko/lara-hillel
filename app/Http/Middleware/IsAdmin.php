@@ -15,14 +15,15 @@ class IsAdmin
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return Response|RedirectResponse
+     * @return RedirectResponse
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse
+    public function handle(Request $request, Closure $next): RedirectResponse
     {
         $id = Auth::id();
         if(check_role($id)){
             return $next($request);
         }
-        return redirect('/error');
+        return redirect()->route('home')
+            ->with('status', 'Permission denied! You aren\'t an admin.');
     }
 }

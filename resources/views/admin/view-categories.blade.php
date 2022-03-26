@@ -7,6 +7,13 @@
                 <h3 class="text-center">{{ __('Categories') }}</h3>
             </div>
             <div class="col-md-12">
+                @if (session('warn'))
+                    <div class="alert alert-warning" role="alert">
+                        {{ session('warn') }}
+                    </div>
+                @endif
+            </div>
+            <div class="col-md-12">
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
@@ -28,7 +35,7 @@
                     <tbody>
                     @foreach($categories as $category)
                         <tr>
-                            <td class="text-center" scope="col"><img src="#"
+                            <td class="text-center" scope="col"><img src="{{ Storage::url($category->thumbnail) }}"
                                                                      width="75" height="100" alt=""></td>
                             <td>{{$category->id}}</td>
                             <td>{{$category->title}}</td>

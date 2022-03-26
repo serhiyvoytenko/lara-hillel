@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
+use App\Services\FileStorageService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -28,18 +32,21 @@ class CategoryController extends Controller
      */
     public function create(): Response
     {
-        //
+        return \response()->view('admin.create-category');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param StoreCategoryRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request): Response
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        //
+        $fields = $request->validated();
+        Category::create($fields);
+
+        return redirect()->route('admin.category.index')->with('status', "Category {$fields['title']} was created successfully!");
     }
 
 //    /**
@@ -61,29 +68,48 @@ class CategoryController extends Controller
      */
     public function edit(int $id): Response
     {
-        //
+        $category = Category::whereId($id)->first();
+
+        return \response()->view('admin.edit-category', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param StoreCategoryRequest $request
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, int $id): Response
+    public function update(StoreCategoryRequest $request, int $id): RedirectResponse
     {
-        //
+        $fields = $request->validated();
+        $category = Category::whereId($id)->first();
+
+        $category?->update($fields);
+
+        return redirect()->route('admin.category.index')
+            ->with('status', 'Category "' . $category->title . '" was updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(int $id): Response
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $title = Category::whereId($id)->first()?->getAttributeValue('title');
+
+        if (Product::where('category_id', $id)->first()) {
+            return redirect()->route('admin.category.index')
+                ->with('warn', 'Category "' . $title . '" contains some products. Please remove them first.');
+        }
+
+        FileStorageService::remove(Category::whereId($id)->first()?->getAttributeValue('thumbnail') ?? '');
+        Category::whereId($id)->delete();
+
+        return redirect()->route('admin.category.index')
+            ->with('status', 'Category "' . $title . '" was deleted successfully!');
     }
 }

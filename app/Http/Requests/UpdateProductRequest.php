@@ -14,7 +14,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check() && check_role((int)Auth::id());
+        return auth()->check() && check_role(Auth::id());
     }
 
     /**

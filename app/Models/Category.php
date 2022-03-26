@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\FileStorageService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,6 +33,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'thumbnail',
+    ];
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
@@ -40,5 +47,14 @@ class Category extends Model
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function setThumbnailAttribute($value): void
+    {
+//        if (!empty($this->getAttributeValue('thumbnail'))){
+//            FileStorageService::remove($this->thumbnail);
+//        }
+
+        $this->attributes['thumbnail'] = FileStorageService::upload($value);
     }
 }
