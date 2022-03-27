@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Services\FileStorageService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller
@@ -83,7 +82,7 @@ class CategoryController extends Controller
     public function update(StoreCategoryRequest $request, int $id): RedirectResponse
     {
         $fields = $request->validated();
-        $category = Category::whereId($id)->first();
+        $category = Category::whereId($id)->first() ?? '';
 
         $category?->update($fields);
 
