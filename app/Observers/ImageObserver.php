@@ -16,7 +16,6 @@ class ImageObserver
      */
     public function deleted(Image $image): void
     {
-        logs()->notice('remove from class: ' . __CLASS__);
         FileStorageService::remove($image->path);
     }
 
