@@ -28,7 +28,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/error', [App\Http\Controllers\HomeController::class, 'error'])->name('error');
 
-Route::delete('ajax/images/{image_id}', RemoveImagesController::class)->name('ajax.images.remove');
+Route::delete('ajax/images/{image_id}', RemoveImagesController::class)
+    ->middleware(['auth', 'isAdmin'])
+    ->name('ajax.images.remove');
 
 Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(static function () {
     Route::resource('product', ProductController::class)->except('show');

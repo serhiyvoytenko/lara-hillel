@@ -2,8 +2,8 @@
 
 use App\Models\User;
 
-if (!function_exists('check_role')) {
-    function check_role(int $id): bool
+if (!function_exists('isAdmin')) {
+    function isAdmin(int $id): bool
     {
         $role = User::find($id)?->role()->first();
 
