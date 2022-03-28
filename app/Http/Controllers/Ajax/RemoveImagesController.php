@@ -19,6 +19,7 @@ class RemoveImagesController extends Controller
     {
         try {
             Image::whereId($imageId)->delete();
+            logs()->notice('remove from: ' . __CLASS__);
             return response()->json(['messages' => 'Product was deleted successfully.']);
         } catch (Exception $exception) {
             logs()->error($exception);

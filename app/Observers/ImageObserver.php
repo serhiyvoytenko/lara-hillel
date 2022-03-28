@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Observers;
+
+use App\Models\Image;
+use App\Services\FileStorageService;
+
+class ImageObserver
+{
+
+    /**
+     * Handle the Image "deleted" event.
+     *
+     * @param Image $image
+     * @return void
+     */
+    public function deleted(Image $image): void
+    {
+        logs()->notice('remove from class: ' . __CLASS__);
+        FileStorageService::remove($image->path);
+    }
+
+}

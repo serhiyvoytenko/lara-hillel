@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\User|null $users
+ * @property-read int|null $users_count
  */
 class Role extends Model
 {

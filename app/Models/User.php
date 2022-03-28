@@ -49,6 +49,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \App\Models\Order|null $orders
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
  * @property-read int|null $roles_count
+ * @property-read \App\Models\Role $role
  */
 class User extends Authenticatable
 {

@@ -50,6 +50,9 @@ use App\Services\FileStorageService;
  * @property-read int|null $images_count
  * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
+ * @property string $thumbnail
+ * @property-read \App\Models\Category $category
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereThumbnail($value)
  */
 class Product extends Model
 {
