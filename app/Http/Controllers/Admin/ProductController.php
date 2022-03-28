@@ -95,7 +95,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::get()->all();
-        $images = $product->images()->get()->all();
+        $images = $product->images;
 
         return response()->view('admin.edit-product', compact('product', 'categories', 'images'));
     }
