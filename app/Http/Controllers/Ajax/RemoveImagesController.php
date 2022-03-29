@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Ajax;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use Illuminate\Http\JsonResponse;
-use Mockery\Exception;
 
 class RemoveImagesController extends Controller
 {
