@@ -2,33 +2,49 @@
 
 namespace Tests\Unit\Services;
 
-use App\Models\Category;
-use App\Models\Product;
-
+use App\Services\FileStorageService;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Str;
 use Tests\TestCase;
 
 class FileStorageServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected mixed $category, $product, $images = [];
 
-    public function setVariable(): void
-    {
-        $this->category = Category::factory(1)->create()->first();
-        $this->product = Product::factory(1, ['category_id' => $this->category->id])->create()->first();
-        $this->images = [
-            UploadedFile::fake()->image('test.png'),
-            UploadedFile::fake()->image('test1.png'),
-        ];
-
-    }
+    /**
+     * @throws FileNotFoundException
+     */
 
     public function test_upload_file_if_exists(): void
     {
-        $this->setVariable();
-        $this->assertEquals(0, $this->product->images()->count());
+        $path = FileStorageService::upload(UploadedFile::fake()->create('test.jpg'));
+
+        $this->assertTrue(Storage::fileExists($path));
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function test_upload_is_string(): void
+    {
+        $this->assertIsString(FileStorageService::upload(Str::random()));
+        $this->assertNotEmpty(FileStorageService::upload(Str::random()));
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function test_upload_is_string_empty(): void
+    {
+        $this->assertEmpty(FileStorageService::upload(''));
+    }
+
+    public function test_upload_file_if_file_not_found(): void
+    {
+
     }
 }
