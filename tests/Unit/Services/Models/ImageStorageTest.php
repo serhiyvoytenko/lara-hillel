@@ -6,11 +6,11 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
 use App\Services\Models\ImageStorage;
+use RuntimeException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use phpDocumentor\Reflection\Types\This;
 use Tests\TestCase;
 
 class ImageStorageTest extends TestCase
@@ -38,13 +38,38 @@ class ImageStorageTest extends TestCase
     /**
      * @throws FileNotFoundException
      */
-    public function test_attach_if_file_exists(): void
+    public function test_attach_images_to_product_if_file_exists(): void
     {
         $this->setVariable();
         ImageStorage::attach($this->model, $this->method, $this->images);
         $result = Image::get();
         $this->assertCount(2, $result);
-        $this->assertEquals(get_class($this->model) ,$result->first()->imageable_type);
+        $this->assertEquals(get_class($this->model), $result->first()->imageable_type);
         $this->assertEquals(1, $result->first()->imageable_id);
     }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function test_attach_images_to_product_if_file_does_not_exist(): void
+    {
+        $this->setVariable();
+        ImageStorage::attach($this->model, $this->method, []);
+        $result = Image::get()->all();
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * @throws FileNotFoundException
+     */
+    public function test_if_method_does_not_exist(): void
+    {
+        $this->setVariable();
+        $this->method = 'test';
+        $className = $this->model::class;
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("{$className} does not have {$this->method}");
+        ImageStorage::attach($this->model, $this->method, $this->images);
+    }
+
 }
