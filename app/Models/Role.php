@@ -31,11 +31,32 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = [
-      'name',
+        'name',
     ];
 
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
+
+    private function getRole($query, $role = 'customer')
+    {
+        return $query->where(
+            'name',
+            '=',
+            config('constants.db.roles.' . $role)
+        );
+    }
+
+    public function scopeCustomer($query)
+    {
+        return $this->getRole($query);
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $this->getRole($query, 'admin');
+    }
 }
+
+
