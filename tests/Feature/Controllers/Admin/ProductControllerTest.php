@@ -43,37 +43,33 @@ class ProductControllerTest extends TestCase
     public function test_index_if_no_auth(): void
     {
         $response = $this->get(route('admin.product.index'));
-        $response->assertStatus(302);
+        $response->assertStatus(302)->assertRedirect(route('login'));
     }
 
     public function test_index_if_auth_with_role_customer(): void
     {
         $customer = $this->getUser('customer');
         $response = $this->actingAs($customer)->get(route('admin.product.index'));
-        $response->assertStatus(302);
-        $response->assertRedirect(route('home'));
+        $response->assertStatus(302)->assertRedirect(route('home'));
     }
 
     public function test_index_if_auth_with_role_admin(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.product.index'));
-        $response->assertStatus(200);
-        $response->assertSee('Products');
+        $response->assertStatus(200)->assertSee('Products');
     }
 
-    public function test_create_if_auth_with_role_admin(): void
+    public function test_create(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.product.create'));
-        $response->assertStatus(200);
-        $response->assertSee('Create product');
+        $response->assertStatus(200)->assertSee('Create product');
     }
 
     public function test_store_if_sent_invalid_data(): void
     {
         $response = $this->actingAs($this->user)->post(route('admin.product.store', []));
 
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors(['title']);
+        $response->assertStatus(302)->assertSessionHasErrors(['title']);
     }
 
     public function test_store_if_sent_valid_form(): void
@@ -98,17 +94,53 @@ class ProductControllerTest extends TestCase
 
     public function test_edit(): void
     {
-        self::assertTrue(true); //TODO implement test
+        $product = Product::factory(1)->create()->first();
+        $response = $this->actingAs($this->user)->get(url('/admin/product/' . $product->id . '/edit'));
+        $response->assertStatus(200);
+        $response->assertSee([
+            $product->title,
+            $product->description,
+            $product->short_description,
+            $product->sku,
+        ]);
     }
 
     public function test_update(): void
     {
-        self::assertTrue(true); //TODO implement test
+        $product = Product::factory(1)->create()->first();
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+        ]);
 
+        $response = $this->actingAs($this->user)->put('/admin/product/' . $product->id, [
+            'title' => 'new_title',
+            'description' => $product->description,
+            'short_description' => $product->short_description,
+            'sku' => 'new_sku',
+            'category' => Category::first()->title,
+            'price' => 100,
+            'discount' => 10,
+            'count' => $product->count,
+        ]);
+        $this->assertDatabaseHas('products', [
+            'title' => 'new_title',
+            'sku' => 'new_sku',
+            'price' => 100,
+            'discount' => 10
+        ]);
+        $response->assertRedirect(route('admin.product.index'));
     }
 
     public function test_destroy(): void
     {
-        self::assertTrue(true); //TODO implement test
+        $product = Product::factory(1)->create()->first();
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+        ]);
+        $response = $this->actingAs($this->user)->delete(url('/admin/product/' . $product->id));
+        $response->assertStatus(302);
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id,
+        ]);
     }
 }
