@@ -95,7 +95,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $categories = Category::get()->all();
-        $images = $product->images()->get()->all();
+        $images = $product->images;
 
         return response()->view('admin.edit-product', compact('product', 'categories', 'images'));
     }
@@ -144,13 +144,7 @@ class ProductController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $product = Product::find($id);
-        $images = $product->images()->get();
 
-        foreach ($images as $image) {
-            FileStorageService::remove($image->getAttribute('path'));
-        }
-
-        $product->images()->delete();
         $product->delete();
 
         return redirect()->back()->with('status', 'Product "' . $product->getAttribute('title') . '" was successfully deleted');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Ajax\RemoveImagesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/error', [App\Http\Controllers\HomeController::class, 'error'])->name('error');
+
+Route::delete('ajax/images/{image_id}', RemoveImagesController::class)
+    ->middleware(['auth', 'isAdmin'])
+    ->name('ajax.images.remove');
 
 Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(static function () {
     Route::resource('product', ProductController::class)->except('show');

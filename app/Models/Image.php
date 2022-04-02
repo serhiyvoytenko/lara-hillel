@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Image
@@ -15,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $large_image
  * @property string $medium_image
  * @property string $video
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Database\Factories\ImageFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
@@ -28,8 +30,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereVideo($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Product|null $products
+ * @mixin Eloquent
+ * @property-read Product|null $products
+ * @property mixed $path
+ * @property int $imageable_id
+ * @property string $imageable_type
+ * @property-read Model|Eloquent $imageable
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereImageableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereImageableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image wherePath($value)
  */
 class Image extends Model
 {

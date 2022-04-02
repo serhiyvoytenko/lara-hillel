@@ -28,6 +28,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Product|null $products
+ * @property-read \App\Models\Image|null $image
+ * @property-read int|null $products_count
+ * @property-write mixed $thumbnail
  */
 class Category extends Model
 {

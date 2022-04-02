@@ -137,8 +137,12 @@
                                         @if(!empty($images))
                                             @foreach($images as $image)
                                                 <div class="col-sm-12 d-flex justify-content-center align-items-center">
-                                                    <img src="{{Storage::url($image->path)}}" class="card-img-top"
+                                                    <img src="{{Storage::url($image->path)}}" class="card-img-top p-3"
                                                          style="max-width: 80%; margin: 0 auto; display: block;">
+                                                    <a data-image_id="{{$image->id}}"
+                                                       data-route="{{route('ajax.images.remove', $image->id)}}"
+                                                       class="btn btn-danger remove-product-image"
+                                                       href="#">Delete</a>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -167,4 +171,5 @@
 @endsection
 @push('scripts')
     <script src="{{ asset('js/images-preview.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/images-actions.js') }}" type="text/javascript"></script>
 @endpush
