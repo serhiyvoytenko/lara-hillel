@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\FileStorageService;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -74,6 +75,9 @@ class ProductControllerTest extends TestCase
 
     public function test_store_if_sent_valid_form(): void
     {
+        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
+        $mock->shouldReceive('upload')->once()->andReturn('test');
+
         $data = [
             'title' => $this->faker->realTextBetween(5, 10),
             'description' => $this->faker->realTextBetween(10, 150),
@@ -89,11 +93,16 @@ class ProductControllerTest extends TestCase
         $response = $this->actingAs($this->user)->post(route('admin.product.store'), $data);
         $this->assertEquals(55555, Product::first()->sku);
         $this->assertEquals(9999, Product::first()->price);
+        $this->assertEquals('test', Product::first()->thumbnail);
+//        unset($this->mock);
         $response->assertStatus(302)->assertRedirect(route('admin.product.index'));
     }
 
     public function test_edit(): void
     {
+        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
+        $mock->shouldReceive('upload')->once()->andReturn('test');
+
         $product = Product::factory(1)->create()->first();
         $response = $this->actingAs($this->user)->get(url('/admin/product/' . $product->id . '/edit'));
         $response->assertStatus(200);
@@ -107,6 +116,9 @@ class ProductControllerTest extends TestCase
 
     public function test_update(): void
     {
+        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
+        $mock->shouldReceive('upload')->once()->andReturn('test');
+
         $product = Product::factory(1)->create()->first();
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
@@ -133,6 +145,9 @@ class ProductControllerTest extends TestCase
 
     public function test_destroy(): void
     {
+        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
+        $mock->shouldReceive('upload')->once()->andReturn('test');
+        $mock->shouldReceive('remove')->once()->andReturn(true);
         $product = Product::factory(1)->create()->first();
         $this->assertDatabaseHas('products', [
             'id' => $product->id,

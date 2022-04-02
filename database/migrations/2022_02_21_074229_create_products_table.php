@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedFloat('price');
             $table->integer('discount');
             $table->integer('count');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
             $table->timestamps();
         });
     }
