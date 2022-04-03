@@ -34,14 +34,12 @@ class CategoryControllerTest extends TestCase
     public function test_index(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.category.index'));
-
         $response->assertStatus(200)->assertSee($this->category->title);
     }
 
     public function test_create(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.category.create'));
-
         $response->assertStatus(200)->assertSee('Create category');
     }
 
@@ -58,7 +56,7 @@ class CategoryControllerTest extends TestCase
 
     public function test_store_if_invalid_data(): void
     {
-        $response = $this->actingAs($this->user)->post(route('admin.category.store'),[]);
+        $response = $this->actingAs($this->user)->post(route('admin.category.store'), []);
         $this->assertEquals(1, Category::count());
         $response->assertSessionHasErrors(['title' => 'The title field is required.']);
         $response->assertSessionHasErrors(['description' => 'The description field is required.']);
@@ -77,11 +75,24 @@ class CategoryControllerTest extends TestCase
 
     public function test_update(): void
     {
-        $this->assertTrue(true);
+        $data = [
+            'title' => 'new_test_title',
+            'description' => 'new test description',
+        ];
+        $response = $this->actingAs($this->user)->put(url('admin/category/' . $this->category->id), $data);
+        $this->assertDatabaseHas('categories', [
+            'title' => 'new_test_title',
+            'description' => 'new test description'
+        ]);
+        $response->assertStatus(302)->assertRedirect(route('admin.category.index'));
     }
 
     public function test_destroy(): void
     {
-        $this->assertTrue(true);
+        $response = $this->actingAs($this->user)->delete(url('admin/category/' . $this->category->id));
+        $this->assertDatabaseMissing('categories', [
+            'id' => $this->category->id
+        ]);
+        $response->assertStatus(302)->assertRedirect(route('admin.category.index'));
     }
 }

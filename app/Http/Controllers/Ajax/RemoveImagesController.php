@@ -18,6 +18,10 @@ class RemoveImagesController extends Controller
     public function __invoke(int $imageId): JsonResponse
     {
         try {
+            if (empty(Image::find($imageId)))
+            {
+                return response()->json(['messages' => 'Image not found']);
+            }
             Image::find($imageId)?->delete();
             return response()->json(['messages' => 'Image was deleted successfully.']);
         } catch (Exception $exception) {
