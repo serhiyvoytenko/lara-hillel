@@ -6,12 +6,13 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
-use App\Services\FileStorageService;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -19,7 +20,14 @@ class ProductControllerTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     protected User $user;
+    protected string|LegacyMockInterface|MockInterface $mock;
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -29,6 +37,7 @@ class ProductControllerTest extends TestCase
         User::factory(1)->create();
 
         $this->user = $this->getUser();
+        $this->mock = \Mockery::mock('alias:App\Services\FileStorageService');
     }
 
     private function getUser($role = 'admin'): User
@@ -39,6 +48,8 @@ class ProductControllerTest extends TestCase
 
     /**
      *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      * @return void
      */
     public function test_index_if_no_auth(): void
@@ -47,6 +58,12 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(302)->assertRedirect(route('login'));
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_index_if_auth_with_role_customer(): void
     {
         $customer = $this->getUser('customer');
@@ -54,18 +71,36 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(302)->assertRedirect(route('home'));
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_index_if_auth_with_role_admin(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.product.index'));
         $response->assertStatus(200)->assertSee('Products');
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_create(): void
     {
         $response = $this->actingAs($this->user)->get(route('admin.product.create'));
         $response->assertStatus(200)->assertSee('Create product');
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_store_if_sent_invalid_data(): void
     {
         $response = $this->actingAs($this->user)->post(route('admin.product.store', []));
@@ -73,10 +108,15 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(302)->assertSessionHasErrors(['title']);
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_store_if_sent_valid_form(): void
     {
-        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
-        $mock->shouldReceive('upload')->once()->andReturn('test');
+        $this->mock->shouldReceive('upload')->once()->andReturn('test');
 
         $data = [
             'title' => $this->faker->realTextBetween(5, 10),
@@ -94,14 +134,18 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(55555, Product::first()->sku);
         $this->assertEquals(9999, Product::first()->price);
         $this->assertEquals('test', Product::first()->thumbnail);
-//        unset($this->mock);
         $response->assertStatus(302)->assertRedirect(route('admin.product.index'));
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_edit(): void
     {
-        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
-        $mock->shouldReceive('upload')->once()->andReturn('test');
+        $this->mock->shouldReceive('upload')->once()->andReturn('test');
 
         $product = Product::factory(1)->create()->first();
         $response = $this->actingAs($this->user)->get(url('/admin/product/' . $product->id . '/edit'));
@@ -114,10 +158,15 @@ class ProductControllerTest extends TestCase
         ]);
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_update(): void
     {
-        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
-        $mock->shouldReceive('upload')->once()->andReturn('test');
+        $this->mock->shouldReceive('upload')->once()->andReturn('test');
 
         $product = Product::factory(1)->create()->first();
         $this->assertDatabaseHas('products', [
@@ -143,11 +192,16 @@ class ProductControllerTest extends TestCase
         $response->assertRedirect(route('admin.product.index'));
     }
 
+    /**
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     * @return void
+     */
     public function test_destroy(): void
     {
-        $mock = \Mockery::mock('alias:App\Services\FileStorageService');
-        $mock->shouldReceive('upload')->once()->andReturn('test');
-        $mock->shouldReceive('remove')->once()->andReturn(true);
+        $this->mock->shouldReceive('remove')->once()->andReturn(true);
+        $this->mock->shouldReceive('upload')->once()->andReturn('test');
         $product = Product::factory(1)->create()->first();
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
