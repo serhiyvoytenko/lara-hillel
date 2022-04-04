@@ -26,6 +26,7 @@ class HomeController extends Controller
      */
     public function index(): Renderable
     {
+
         $products = Product::get()->take(6);
         $categories = Category::get()->take(6);
 

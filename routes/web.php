@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Ajax\RemoveImagesController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,10 @@ Route::delete('ajax/images/{image_id}', RemoveImagesController::class)
     ->name('ajax.images.remove');
 
 Route::resource('products', ProductsController::class)->only(['show', 'index']);
-
+Route::get('cart', [CartController::class, 'index'])->name('cart');
+Route::post('cart/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::delete('cart', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('cart/{product}/count', [CartController::class, 'countUpdate'])->name('cart.count.update');
 
 Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(static function () {
     Route::resource('product', ProductController::class)->except('show');
