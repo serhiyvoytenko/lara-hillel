@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\CategoriesController as CustomerCategoryController;
 use App\Http\Controllers\Ajax\RemoveImagesController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
@@ -34,6 +35,7 @@ Route::delete('ajax/images/{image_id}', RemoveImagesController::class)
     ->middleware(['auth', 'isAdmin'])
     ->name('ajax.images.remove');
 
+Route::resource('categories', CustomerCategoryController::class)->only(['show', 'index']);
 Route::resource('products', ProductsController::class)->only(['show', 'index']);
 Route::get('cart', [CartController::class, 'index'])->name('cart');
 Route::post('cart/{product}', [CartController::class, 'add'])->name('cart.add');

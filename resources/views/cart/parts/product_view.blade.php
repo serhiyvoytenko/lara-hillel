@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <img src="{{ Storage::url($row->model->thumbnail) }}" height="100" alt="">
+        <img src="{{!Storage::exists($row->model->thumbnail) ? $row->model->thumbnail : Storage::url($row->model->thumbnail)}}" height="100" alt="">
     </td>
     <td>
         <a href="{{ route('products.show', $row->id) }}"><strong>{{ $row->name }}</strong></a>

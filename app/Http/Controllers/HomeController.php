@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index(): Renderable
     {
 
-        $products = Product::get()->take(6);
+        $products = Product::paginate(6);
         $categories = Category::get()->take(6);
 
         return view('home', compact('products', 'categories'));

@@ -16,10 +16,10 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            @if(Storage::has($product->thumbnail))
-                <img src="{{ Storage::url($product->thumbnail) }}" class="card-img-top"
+{{--            @if(Storage::has($product->thumbnail))--}}
+                <img src="{{!Storage::exists($product->thumbnail) ? $product->thumbnail : Storage::url($product->thumbnail)}}" class="card-img-top"
                      style="width: 200px; height: 300px; margin: 0 auto; display: block;">
-            @endif
+{{--            @endif--}}
         </div>
         <div class="col-md-6">
             <p>Price: {{ $product->price }}$</p>
