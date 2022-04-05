@@ -11,6 +11,7 @@ use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -37,7 +38,7 @@ class ProductControllerTest extends TestCase
         User::factory(1)->create();
 
         $this->user = $this->getUser();
-        $this->mock = \Mockery::mock('alias:App\Services\FileStorageService');
+        $this->mock = Mockery::mock('alias:App\Services\FileStorageService');
     }
 
     private function getUser($role = 'admin'): User
@@ -121,12 +122,12 @@ class ProductControllerTest extends TestCase
         $data = [
             'title' => $this->faker->realTextBetween(5, 10),
             'description' => $this->faker->realTextBetween(10, 150),
-            'short_description' => $this->faker->realTextBetween(10, 50),
+            'short_description' => $this->faker->realTextBetween(10, 45),
             'sku' => 55555,
             'category' => Category::inRandomOrder()->first()->title,
             'price' => 9999,
-            'discount' => $this->faker->randomFloat(0, 1, 20),
-            'count' => $this->faker->randomFloat(0, 1, 100000),
+            'discount' => $this->faker->randomNumber(2),
+            'count' => $this->faker->randomNumber(4),
             'thumbnail' => UploadedFile::fake()->create('test.png'),
         ];
 
