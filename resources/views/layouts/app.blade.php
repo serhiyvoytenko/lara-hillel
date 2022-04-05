@@ -24,7 +24,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/home') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -44,7 +44,7 @@
                     <!-- Authentication Links -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cart') }}">
-                            {{ __('Cart') }} @if(Cart::instance('cart')->count() > 0) - <strong>{{ Cart::instance('cart')->count() }}</strong> @endif
+                             {{ __('Cart') }} @if(Cart::instance('shopping')->count() > 0) - {{ Cart::instance('shopping')->count() }} @endif
                         </a>
                     </li>
                     @guest

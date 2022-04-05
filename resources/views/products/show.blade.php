@@ -1,10 +1,16 @@
 @extends('layouts.app')
-{{--@inject('wishlist', 'App\Services\WishListService')--}}
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <h3 class="text-center">{{ __($product->title) }}</h3>
+        </div>
+        <div class="col-md-8">
+            @if (session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
     </div>
     <hr>
@@ -16,16 +22,15 @@
             @endif
         </div>
         <div class="col-md-6">
-            <p>Price: {{ $product->end_price }}$</p>
-            <p>SKU: {{ $product->SKU }}</p>
-            <p>In stock: {{ $product->in_stock }}</p>
-            {{--            <p>Rating: {{ round($product->averageRating(), 2) }}</p>--}}
+            <p>Price: {{ $product->price }}$</p>
+            <p>SKU: {{ $product->sku }}</p>
+            <p>Count: {{ $product->count }}</p>
             <hr>
             <div>
                 <p>Product Category: <b> @include('categories.parts.category_view', ['category' => $product->category])</b></p>
             </div>
             @auth
-                @if($product->in_stock > 0)
+                @if($product->count > 0)
                     <hr>
                     <div>
                         <p>Add to Cart: </p>
@@ -39,7 +44,7 @@
                                        class="form-control"
                                        id="product_count"
                                        min="1"
-                                       max="{{ $product->in_stock }}"
+                                       max="{{ $product->count }}"
                                        value="1"
                                 >
                             </div>
@@ -47,51 +52,6 @@
                         </form>
                     </div>
                 @endif
-                {{--                <form class="form-horizontal poststars" action="{{ route('rating.add', $product) }}" id="addStar"--}}
-                {{--                      method="POST">--}}
-                {{--                    @csrf--}}
-                {{--                    <div class="form-group required">--}}
-                {{--                        <div class="col-sm-12 stars">--}}
-                {{--                            @if(!is_null($product->getUserRatingForCurrentProduct()))--}}
-                {{--                                @for($i = 5; $i >= 1; $i--)--}}
-                {{--                                    <input class="star star-{{$i}}"--}}
-                {{--                                           value="{{$i}}"--}}
-                {{--                                           id="star-{{$i}}"--}}
-                {{--                                           type="radio"--}}
-                {{--                                           name="star"--}}
-                {{--                                        {{--}}
-                {{--                                        $i == $product->getUserRatingForCurrentProduct()->rating--}}
-                {{--                                        ? 'checked'--}}
-                {{--                                        : ''--}}
-                {{--                                        }}--}}
-                {{--                                    />--}}
-                {{--                                    <label class="star star-{{$i}}" for="star-{{$i}}"></label>--}}
-                {{--                                @endfor--}}
-                {{--                            @else--}}
-                {{--                                <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>--}}
-                {{--                                <label class="star star-5" for="star-5"></label>--}}
-                {{--                                <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>--}}
-                {{--                                <label class="star star-4" for="star-4"></label>--}}
-                {{--                                <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>--}}
-                {{--                                <label class="star star-3" for="star-3"></label>--}}
-                {{--                                <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>--}}
-                {{--                                <label class="star star-2" for="star-2"></label>--}}
-                {{--                                <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>--}}
-                {{--                                <label class="star star-1" for="star-1"></label>--}}
-                {{--                            @endif--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                </form>--}}
-                {{--                <hr>--}}
-                {{--                @if($wishlist->isUserFollowed($product))--}}
-                {{--                    <form action="{{ route('wishlist.delete', $product) }}" method="POST">--}}
-                {{--                        @csrf--}}
-                {{--                        <input type="submit" class="btn btn-danger" value="Remove from Wish List">--}}
-                {{--                    </form>--}}
-                {{--                @else--}}
-                {{--                    <a href="{{ route('wishlist.add', $product) }}"--}}
-                {{--                       class="btn btn-success">{{ __('Add to Wish List') }}</a>--}}
-                {{--                @endif--}}
             @endauth
         </div>
     </div>
@@ -103,11 +63,4 @@
         </div>
     </div>
     </div>
-    {{--    <script>--}}
-    {{--        $(function(){--}}
-    {{--            $('#addStar').change('.star', function(e) {--}}
-    {{--                $(this).submit();--}}
-    {{--            });--}}
-    {{--        });--}}
-    {{--    </script>--}}
 @endsection
