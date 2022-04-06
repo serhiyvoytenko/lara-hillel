@@ -16,7 +16,7 @@
                    max="{{ $row->model->in_stock }}"
                    name="product_count"
             >
-            <input type="submit" class="btn btn-outline-success" value="Update count">
+            <input type="submit" class="btn btn-outline-success btn-sm" value="Update count">
         </form>
     </td>
     <td>{{ $row->price }}$</td>
@@ -26,7 +26,7 @@
             @csrf
             @method('DELETE')
             <input type="hidden" value="{{ $row->rowId }}" name="rowId">
-            <input type="submit" class="btn btn-outline-danger" value="{{ __('Delete') }}">
+            <input type="submit" class="btn btn-outline-danger btn-sm" value="{{ __('Delete') }}">
         </form>
     </td>
 </tr>

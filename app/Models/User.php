@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /**
  * App\Models\User
@@ -20,14 +27,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $birthdate
  * @property string $phone
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read Collection|PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
@@ -45,11 +52,11 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereSurname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Order|null $orders
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @mixin Eloquent
+ * @property-read Order|null $orders
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @property-read \App\Models\Role $role
+ * @property-read Role $role
  */
 class User extends Authenticatable
 {
@@ -65,6 +72,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'surname',
+        'birthdate',
+        'phone',
     ];
 
     /**
@@ -94,5 +104,12 @@ class User extends Authenticatable
     public function orders(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function instanceCartName(): Attribute
+    {
+        return Attribute::make(
+          get: fn() => $this->getAttribute('id') . '_' . $this->getAttribute('email'),
+        );
     }
 }

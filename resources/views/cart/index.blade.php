@@ -33,7 +33,7 @@
                 @else
                     <h3 class="text-center">There are no products in cart</h3>
                 @endif
-                <table class="table table-primary" style="width: 50%; float: right;">
+                <table class="table table-primary table-striped" style="width: 50%; float: right;">
                     <tbody>
                     <tr>
                         <td colspan="2">&nbsp</td>
@@ -55,7 +55,7 @@
             </div>
             @auth
                 <div class="col-md-12 text-right">
-                    <a href="{{ route('home') }}" class="btn btn-outline-success">{{ __('Proceed to checkout') }}</a>
+                    <a href="{{ route('home') }}" class="btn btn-outline-success btn-sm">{{ __('Proceed to checkout') }}</a>
                 </div>
             @endauth
         </div>
