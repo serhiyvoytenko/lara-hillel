@@ -47,6 +47,11 @@
                              {{ __('Cart') }} @if(Cart::instance('shopping')->count() > 0) - {{ Cart::instance('shopping')->count() }} @endif
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('categories.index') }}">
+                            {{ __('View all categories') }}
+                        </a>
+                    </li>
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">

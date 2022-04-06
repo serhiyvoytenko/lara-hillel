@@ -32,7 +32,8 @@
                     <tbody>
                     @foreach($products as $product)
                         <tr>
-                            <td class="text-center" scope="col"><img src="{{ Storage::url($product->thumbnail) }}"
+                            <td class="text-center">
+                                <img src="{{!Storage::exists($product->thumbnail) ? $product->thumbnail : Storage::url($product->thumbnail)}}"
                                                                      width="75" height="100" alt=""></td>
                             <td>{{$product->title}}</td>
                             <td>{{$product->short_description}}</td>

@@ -14,10 +14,15 @@
                         @endif
                         <div class="album py-5 bg-light">
                             <div class="container">
-                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                                    @each('categories.parts.category_view', $categories, 'category')
-                                </div>
-                                <hr>
+                                <table class="table table-primary table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Title category</th>
+                                            <th class="text-center">Quantity products</th>
+                                        </tr>
+                                    </thead>
+                                    @each('categories.parts.category_row', $categories, 'category')
+                                </table>
                             </div>
                         </div>
                     </div>
