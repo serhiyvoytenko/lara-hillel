@@ -65,11 +65,10 @@ class CategoryController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit(int $id): Response
+    public function edit(Category $category): Response
     {
-        $category = Category::whereId($id)->first();
-
-        return \response()->view('admin.edit-category', compact('category'));
+//        $category = Category::whereId($id)->first();
+        return response()->view('admin.edit-category', compact('category'));
     }
 
     /**
