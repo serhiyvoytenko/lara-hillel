@@ -45,6 +45,6 @@ class UserAccountController extends Controller
 
         $user->update($request);
 
-        return redirect()->route('account.show', $user)->with('success', 'Data successfully updated.');
+        return redirect()->route('account.show', $user)->with('success', 'Data was successfully updated.');
     }
 }

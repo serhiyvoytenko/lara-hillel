@@ -23,30 +23,58 @@
                     <table class="table table-primary table-striped text-center border">
                         <thead>
                         <tr>
-                            <th>Fields</th>
-                            <th>Data</th>
+                            <th>{{ __('Fields') }}</th>
+                            <th>{{ __('Data') }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>First name:</td>
-                            <td><input type="text" name="name" value="{{$user->name}}"></td>
+                            <td>{{ __('First name:') }}</td>
+                            <td><input type="text" name="name" value="{{$user->name}}"
+                                       class="@error('name') is-invalid alert-danger @enderror">
+                                @error('name')
+                                {{ $message }}
+                                @enderror
+                            </td>
                         </tr>
                         <tr>
-                            <td>Last name:</td>
-                            <td><input type="text" name="surname" value="{{$user->surname}}"></td>
+                            <td>{{ __('Last name:') }}</td>
+                            <td><input type="text" name="surname" value="{{$user->surname}}"
+                                       class="@error('surname') is-invalid alert-danger @enderror">
+                                @error('surname')
+                                {{ $message }}
+                                @enderror
+                            </td>
                         </tr>
                         <tr>
-                            <td>Birthdate:</td>
-                            <td><input type="date" name="birthdate" value="{{$user->birthdate}}"></td>
+                            <td>{{ __('Role:') }}</td>
+                            <td>{{$user->role->name}}</td>
                         </tr>
                         <tr>
-                            <td>Email:</td>
+                            <td>{{ __('Birthdate:') }}</td>
+                            <td><input type="date" name="birthdate" value="{{$user->birthdate}}"
+                                       class="@error('birthdate') is-invalid alert-danger @enderror">
+                                @error('birthdate')
+                                {{ $message }}
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('Email:') }}</td>
                             <td>{{$user->email}}</td>
                         </tr>
                         <tr>
-                            <td>Phone:</td>
-                            <td><input type="text" name="phone" value="{{$user->phone}}"></td>
+                            <td>{{ __('Phone:') }}</td>
+                            <td><input type="text" name="phone" value="{{$user->phone}}"
+                                       class="@error('phone') is-invalid alert-danger @enderror">
+                                @error('phone')
+                                {{ $message }}
+                                @enderror
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('Balance:') }}</td>
+                            <td>{{$user->balance}}</td>
                         </tr>
                         </tbody>
                     </table>

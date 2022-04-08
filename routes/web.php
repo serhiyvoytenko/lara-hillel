@@ -53,7 +53,7 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
 //    ->only(['show', 'edit', 'update']);
 
 Route::prefix('account')->name('account.')->middleware('auth')->group(static function() {
-    Route::get('{user}', [UserAccountController::class, 'show'])->name('show');
-    Route::get('{user}/edit', [UserAccountController::class, 'edit'])->name('edit');
-    Route::put('{user}', [UserAccountController::class, 'update'])->name('update');
+    Route::get('{user}', [UserAccountController::class, 'show'])->can('view', 'user')->name('show');
+    Route::get('{user}/edit', [UserAccountController::class, 'edit'])->can('update', 'user')->name('edit');
+    Route::put('{user}', [UserAccountController::class, 'update'])->can('update', 'user')->name('update');
 });

@@ -15,7 +15,6 @@ class ProductsController extends Controller
 
     public function show(Product $product): Renderable
     {
-        dd($product);
         return view('products.show', compact('product'));
     }
 }
