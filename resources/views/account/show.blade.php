@@ -17,7 +17,7 @@
     @auth
         <div class="container bg-light d-flex align-items-center">
             <div class="col-md-12">
-                <table class="table table-primary table-striped text-center border">
+                <table class="table table-secondary table-striped text-center border">
                     <thead>
                     <tr>
                         <th>Fields</th>
@@ -55,7 +55,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-sm btn-info" href="{{route('account.edit', $user)}}">Edit profile</a>
+                <a class="btn btn-sm btn-primary" href="{{route('account.edit', $user)}}">Edit profile</a>
             </div>
         </div>
     @endauth

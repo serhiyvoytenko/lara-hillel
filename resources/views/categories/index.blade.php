@@ -14,7 +14,7 @@
                         @endif
                         <div class="album py-5 bg-light">
                             <div class="container">
-                                <table class="table table-primary table-striped">
+                                <table class="table table-secondary table-striped">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Title category</th>

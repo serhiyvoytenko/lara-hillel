@@ -20,7 +20,7 @@
                 <form action="{{route('account.update', Auth::user())}}" method="POST">
                     @csrf
                     @method('PUT')
-                    <table class="table table-primary table-striped text-center border">
+                    <table class="table table-secondary table-striped text-center border">
                         <thead>
                         <tr>
                             <th>{{ __('Fields') }}</th>
@@ -61,7 +61,12 @@
                         </tr>
                         <tr>
                             <td>{{ __('Email:') }}</td>
-                            <td>{{$user->email}}</td>
+                            <td><input type="email" name="email" value="{{$user->email}}"
+                                       class="@error('email') is-invalid alert-danger @enderror">
+                                @error('email')
+                                {{ $message }}
+                                @enderror
+                            </td>
                         </tr>
                         <tr>
                             <td>{{ __('Phone:') }}</td>
@@ -74,12 +79,17 @@
                         </tr>
                         <tr>
                             <td>{{ __('Balance:') }}</td>
-                            <td>{{$user->balance}}</td>
+                            <td><input type="number" name="balance" value="{{$user->balance}}"
+                                       class="@error('balance') is-invalid alert-danger" @enderror">
+                                @error('balance')
+                                {{ $message }}
+                                @enderror
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-sm btn-warning">Save change</button>
-                    <a class="btn btn-sm btn-info" href="{{route('account.show', Auth::user())}}">Canceled</a>
+                    <button type="submit" class="btn btn-sm btn-primary">Save change</button>
+                    <a class="btn btn-sm btn-secondary" href="{{route('account.show', Auth::user())}}">Canceled</a>
                 </form>
             </div>
         </div>

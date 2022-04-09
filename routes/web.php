@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\CategoriesController as CustomerCategoryController;
 use App\Http\Controllers\Ajax\RemoveImagesController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +55,13 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
 //    ->only(['show', 'edit', 'update']);
 
 Route::prefix('account')->name('account.')->middleware('auth')->group(static function() {
-    Route::get('{user}', [UserAccountController::class, 'show'])->can('view', 'user')->name('show');
-    Route::get('{user}/edit', [UserAccountController::class, 'edit'])->can('update', 'user')->name('edit');
-    Route::put('{user}', [UserAccountController::class, 'update'])->can('update', 'user')->name('update');
+    Route::get('{user}', [UserAccountController::class, 'show'])
+        ->can('view', 'user')->name('show');
+    Route::get('{user}/edit', [UserAccountController::class, 'edit'])
+        ->can('update', 'user')->name('edit');
+    Route::put('{user}', [UserAccountController::class, 'update'])
+        ->can('update', 'user')->name('update');
 });
+
+Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');
+Route::post('order', OrdersController::class)->middleware('auth')->name('order');
