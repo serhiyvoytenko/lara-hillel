@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\OrderStatus
  *
  * @property int $id
  * @property string $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus query()
@@ -21,8 +22,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Order|null $orders
+ * @method static defaultStatus()
+ * @mixin Eloquent
+ * @property-read Order|null $orders
  * @property-read int|null $orders_count
  */
 class OrderStatus extends Model

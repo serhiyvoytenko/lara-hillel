@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\Order;
+use Illuminate\Database\Eloquent\Model;
 
 interface OrderRepositoryInterface
 {
-    public function create(array $request): Order|bool;
+    public function create(array $request): Model|bool;
 }
