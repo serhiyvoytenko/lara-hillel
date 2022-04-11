@@ -13,9 +13,10 @@ class OrdersController extends Controller
      * Handle the incoming request.
      *
      * @param StoreOrderRequest $request
+     * @param OrderRepositoryInterface $orderRepository
      * @return Renderable
      */
-    public function __invoke(StoreOrderRequest $request, OrderRepositoryInterface  $orderRepository): Renderable
+    public function __invoke(StoreOrderRequest $request, OrderRepositoryInterface $orderRepository): Renderable
     {
         try {
             $orderRepository->create($request->validated());

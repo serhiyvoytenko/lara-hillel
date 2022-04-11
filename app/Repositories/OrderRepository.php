@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Repositories\Contracts\OrderRepositoryInterface;
-use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
+use Throwable;
 
 class OrderRepository implements OrderRepositoryInterface
 {
     /**
-     * @throws Exception
+     * @throws Throwable
      */
     public function create(array $request): Model|bool
     {
@@ -25,17 +25,33 @@ class OrderRepository implements OrderRepositoryInterface
             throw new RuntimeException("Add money to balance please", 200);
         }
 
+        $newBalance = $user?->getAttribute('balance') - $totalSum;
         $status = OrderStatus::defaultStatus()->first();
         $request = array_merge($request, [
             'status_id' => $status->getAttribute('id'),
             'total' => $totalSum
         ]);
 
-        $order = $user?->orders()->create($request);
+        try {
 
-        $this->addProductsToOrder($order);
+            DB::beginTransaction();
 
-        return $order;
+            $order = $user?->orders()->create($request);
+            $user?->update(['balance' => $newBalance]);
+            $this->addProductsToOrder($order);
+
+            DB::commit();
+
+            Cart::instance('shopping')->destroy();
+            return $order;
+
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+            logs()->warning($e->getMessage());
+
+            return false;
+        }
     }
 
     protected function addProductsToOrder(Model $order): void
@@ -49,12 +65,11 @@ class OrderRepository implements OrderRepositoryInterface
                 ]
             );
 
-            $in_stock = $product->model->in_stock - $product->qty;
+            $in_stock = $product->model->count - $product->qty;
 
-            if (!$product->model->update(['in_stock' => $in_stock])) {
+            if (!$product->model->update(['count' => $in_stock])) {
                 throw new RuntimeException("Something went wrong with product id={$product->id} while updating process", 200);
             }
         });
     }
-
 }
