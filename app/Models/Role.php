@@ -25,6 +25,8 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  * @property-read User|null $users
  * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Role admin()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role customer()
  */
 class Role extends Model
 {

@@ -22,10 +22,17 @@ class StoreOrderRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'min:3', 'max:40'],
+            'surname' => ['required', 'string', 'min:3', 'max:40'],
+            'phone' => ['required', 'string', 'min:10', 'max:13'],
+            'email' => ['required', 'email', 'min:5', 'max:100'],
+            'country' => ['required', 'string', 'min:3', 'max:100'],
+            'city' => ['required', 'string', 'min:3', 'max:100'],
+            'address' => ['required', 'string', 'min:3', 'max:100'],
+//            'total' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
         ];
     }
 }

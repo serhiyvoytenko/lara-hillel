@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\OrderStatus
@@ -22,13 +23,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Order|null $orders
+ * @property-read int|null $orders_count
  */
 class OrderStatus extends Model
 {
     use HasFactory;
 
-    public function orders(): BelongsTo
+    public function orders(): HasMany
     {
-        return $this->belongsTo(Order::class);
+        return $this->HasMany(Order::class);
+    }
+
+    public function scopeDefaultStatus($query)
+    {
+        return $query->where('status', config('constants.db.statuses.in_process'));
     }
 }

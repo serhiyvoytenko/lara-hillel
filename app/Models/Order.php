@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -47,23 +48,38 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $products_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read int|null $users_count
+ * @property-read \App\Models\OrderStatus|null $orderStatus
+ * @property-read \App\Models\User $user
  */
 class Order extends Model
 {
     use HasFactory;
 
-    public function orderStatuses(): HasMany
+    protected $fillable = [
+        'name',
+        'surname',
+        'phone',
+        'email',
+        'country',
+        'city',
+        'address',
+        'total',
+        'status_id',
+        'user_id'
+    ];
+
+    public function orderStatus(): BelongsTo
     {
-        return $this->hasMany(OrderStatus::class);
+        return $this->belongsTo(OrderStatus::class);
     }
 
-    public function users(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'single_price']);
     }
 }

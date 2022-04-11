@@ -6,7 +6,7 @@ use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Repositories\OrderRepository;
 use Illuminate\Support\ServiceProvider;
 
-class OrderCreateServiceProvider extends ServiceProvider
+class OrderServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

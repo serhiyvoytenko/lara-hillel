@@ -57,6 +57,9 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
  * @property-read Role $role
+ * @property float $balance
+ * @property-read int|null $orders_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
  */
 class User extends Authenticatable
 {
@@ -102,9 +105,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function orders(): BelongsTo
+    public function orders(): HasMany
     {
-        return $this->belongsTo(Order::class);
+        return $this->hasMany(Order::class);
     }
 
     public function instanceCartName(): Attribute
