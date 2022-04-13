@@ -48,6 +48,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wishlist.index') }}">
+                            {{ __('Wishes List') }} @if(Auth::user()->wishes()->count() > 0) - {{ Auth::user()->wishes()->count() }} @endif
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('categories.index') }}">
                             {{ __('View all categories') }}
                         </a>

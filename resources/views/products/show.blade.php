@@ -52,6 +52,14 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mb-2">Buy</button>
                             </form>
+                            @if((bool)$product->followers()->find(Auth::id()))
+                                <a class="btn btn-sm btn-danger" href="{{route('wishlist.delete', $product)}}">
+                                    Remove from Wishes List</a>
+
+                            @else
+                                <a class="btn btn-sm btn-success" href="{{route('wishlist.add', $product)}}">
+                                    Add to Wishes List</a>
+                            @endif
                         </div>
                     @endif
                 @endauth

@@ -39,7 +39,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/helpers/isAdmin.php"
+            "app/helpers/isAdmin.php",
+            "app/helpers/isUserFollowed.php"
         ]
     },
     "autoload-dev": {

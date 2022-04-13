@@ -55,7 +55,7 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
 //    ->middleware('auth')
 //    ->only(['show', 'edit', 'update']);
 
-Route::prefix('account')->name('account.')->middleware('auth')->group(static function() {
+Route::prefix('account')->name('account.')->middleware('auth')->group(static function () {
     Route::get('{user}', [UserAccountController::class, 'show'])
         ->can('view', 'user')->name('show');
     Route::get('{user}/edit', [UserAccountController::class, 'edit'])
@@ -64,6 +64,11 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('update');
 });
 
-Route::get('wishlist', [WishListController::class, 'index'])->middleware('auth')->name('wishlist');
+Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function(){
+    Route::get('{product}/add', [WishListController::class, 'add'])->name('add');
+    Route::get('{product}/delete', [WishListController::class, 'delete'])->name('delete');
+    Route::get('/', [WishListController::class, 'index'])->name('index');
+});
+
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');
 Route::post('order', OrdersController::class)->middleware('auth')->name('order');
