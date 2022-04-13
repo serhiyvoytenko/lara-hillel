@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserAccountController;
+use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,5 +64,6 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('update');
 });
 
+Route::get('wishlist', [WishListController::class, 'index'])->middleware('auth')->name('wishlist');
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');
 Route::post('order', OrdersController::class)->middleware('auth')->name('order');

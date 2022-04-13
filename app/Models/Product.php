@@ -53,6 +53,8 @@ use App\Services\FileStorageService;
  * @property string $thumbnail
  * @property-read \App\Models\Category $category
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereThumbnail($value)
+ * @property-read Collection|\App\Models\User[] $followers
+ * @property-read int|null $followers_count
  */
 class Product extends Model
 {
@@ -83,6 +85,16 @@ class Product extends Model
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'wishes',
+            'product_id',
+            'user_id'
+        );
     }
 
     /**

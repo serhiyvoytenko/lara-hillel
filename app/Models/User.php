@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -60,6 +61,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property float $balance
  * @property-read int|null $orders_count
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
+ * @property-read Collection|\App\Models\Product[] $wishes
+ * @property-read int|null $wishes_count
  */
 class User extends Authenticatable
 {
@@ -108,6 +111,16 @@ class User extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function wishes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+          Product::class,
+            'wishes',
+            'user_id',
+            'product_id'
+        )->withTimestamps();
     }
 
     public function instanceCartName(): Attribute
