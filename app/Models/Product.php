@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use App\Services\FileStorageService;
+use willvincent\Rateable\Rateable;
 
 /**
  * App\Models\Product
@@ -59,7 +60,7 @@ use App\Services\FileStorageService;
  */
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Rateable;
 
     protected $fillable = [
         'title',
