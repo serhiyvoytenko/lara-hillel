@@ -17,12 +17,12 @@ class WishListController extends Controller
     public function add(Product $product): RedirectResponse
     {
         Auth::user()?->addProductToWish($product);
-        return back()->with('success', 'Product was added to Wishlist successfully.');
+        return redirect()->back()->with('success', 'Product was added to Wishlist successfully.');
     }
 
     public function delete(Product $product): RedirectResponse
     {
         Auth::user()?->removeProductFromWish($product);
-        return back()->with('success', 'Product was removed from Wishlist successfully.');
+        return redirect()->back()->with('success', 'Product was removed from Wishlist successfully.');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -97,6 +98,7 @@ class Product extends Model
         );
     }
 
+
     /**
      * @throws FileNotFoundException
      */
@@ -106,5 +108,12 @@ class Product extends Model
             FileStorageService::remove($this->attributes['thumbnail']);
         }
         $this->attributes['thumbnail'] = FileStorageService::upload($image);
+    }
+
+    protected function available(): Attribute
+    {
+        return Attribute::make(
+            get: static fn($values, $attributes) => $attributes['count'] > 0,
+        );
     }
 }

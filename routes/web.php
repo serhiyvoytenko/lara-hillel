@@ -65,8 +65,8 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
 });
 
 Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function(){
-    Route::get('{product}/add', [WishListController::class, 'add'])->name('add');
-    Route::get('{product}/delete', [WishListController::class, 'delete'])->name('delete');
+    Route::post('{product}/add', [WishListController::class, 'add'])->name('add');
+    Route::delete('{product}/delete', [WishListController::class, 'delete'])->name('delete');
     Route::get('/', [WishListController::class, 'index'])->name('index');
 });
 

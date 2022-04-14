@@ -52,13 +52,17 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mb-2">Buy</button>
                             </form>
-                            @if((bool)$product->followers()->find(Auth::id()))
-                                <a class="btn btn-sm btn-danger" href="{{route('wishlist.delete', $product)}}">
-                                    Remove from Wishes List</a>
-
+                            @if(isUserFollowed($product))
+                                <form action="{{route('wishlist.delete' , $product->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" class="btn btn-sm btn-danger" value="Delete from wishes list">
+                                </form>
                             @else
-                                <a class="btn btn-sm btn-success" href="{{route('wishlist.add', $product)}}">
-                                    Add to Wishes List</a>
+                                <form action="{{route('wishlist.add' , $product->id)}}" method="POST">
+                                    @csrf
+                                    <input type="submit" class="btn btn-sm btn-success" value="Add to wishes list">
+                                </form>
                             @endif
                         </div>
                     @endif

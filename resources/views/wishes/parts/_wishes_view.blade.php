@@ -1,22 +1,29 @@
-<div class="col">
-    <div class="card shadow-sm">
-        <a href="{{route('products.show' , $wishes->id)}}">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="225"
-                 src="{{!Storage::exists($wishes->thumbnail) ? $wishes->thumbnail : Storage::url($wishes->thumbnail)}}">
-
+<tr class="text-center">
+    <td>
+        <a href="{{route('products.show' , $wish->id)}}">
+            <img class="bd-placeholder-img card-img-top"
+                 style="width: 70px; height: 70px; margin: 0 auto; display: block;"
+                 src="{{!Storage::exists($wish->thumbnail) ? $wish->thumbnail : Storage::url($wish->thumbnail)}}">
         </a>
-        <div class="card-body">
-            <b><p class="card-text">{{$wishes->title}}</p></b>
-            <p>{{$wishes->short_description}}</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <a href="{{route('products.show' , $wishes->id)}}" type="button"
-                       class="btn btn-sm btn-outline-secondary">
-                        View details
-                    </a>
-                </div>
-                <small class="text-muted">{{$wishes->price}}$</small>
-            </div>
-        </div>
-    </div>
-</div>
+    </td>
+    <td>
+        <b><p class="card-text">{{$wish->title}}</p></b>
+        <p>{{$wish->short_description}}</p>
+    </td>
+    <td>
+        <a href="{{route('products.show' , $wish->id)}}" type="button"
+           class="btn btn-sm btn-secondary">
+            View details
+        </a>
+    </td>
+    <td>
+        {{ $wish->available ? 'Product is available' : 'Product isn\'t available' }}
+    </td>
+    <td>
+        <form action="{{route('wishlist.delete' , $wish->id)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="submit" class="btn btn-sm btn-danger" value="Delete from wishes list">
+        </form>
+    </td>
+</tr>

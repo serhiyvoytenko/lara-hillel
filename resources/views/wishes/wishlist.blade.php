@@ -6,7 +6,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">{{ __('Wishes List') }}</div>
-
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
@@ -15,19 +14,26 @@
                         @endif
                         <div class="album py-5 bg-light">
                             <div class="container">
-                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                                    @each('wishes.parts._wishes_view', $wishes, 'wishes')
-                                </div>
+                                <table class="table table-secondary table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Thumbnail</th>
+                                        <th class="text-center">Title and description</th>
+                                        <th class="text-center">Show detail</th>
+                                        <th class="text-center">Available</th>
+                                        <th class="text-center">Delete</th>
+                                    </tr>
+                                    </thead>
+                                    @each('wishes.parts._wishes_view', $wishes, 'wish')
+                                </table>
                             </div>
                         </div>
-                        <div class="d-flex p-3 justify-content-center">
-                            {{($wishes)}}
-                        </div>
                     </div>
-
+                </div>
+                <div class="d-flex p-3 justify-content-center">
+                    {{($wishes)}}
                 </div>
             </div>
         </div>
     </div>
-
 @endsection

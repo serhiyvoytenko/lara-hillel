@@ -42,16 +42,18 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->
-                    <li class="nav-item">
+                        <li class="nav-item">
                         <a class="nav-link" href="{{ route('cart') }}">
                              {{ __('Cart') }} @if(Cart::instance('shopping')->count() > 0) - {{ Cart::instance('shopping')->count() }} @endif
                         </a>
                     </li>
+                    @auth
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('wishlist.index') }}">
-                            {{ __('Wishes List') }} @if(Auth::user()->wishes()->count() > 0) - {{ Auth::user()->wishes()->count() }} @endif
+                            {{ __('Wishes List') }} @if(Auth::user()?->wishes()->count() > 0) - {{ Auth::user()->wishes()->count() }} @endif
                         </a>
                     </li>
+                    @endauth
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('categories.index') }}">
                             {{ __('View all categories') }}
