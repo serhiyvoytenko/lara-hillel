@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,8 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('edit');
     Route::put('{user}', [UserAccountController::class, 'update'])
         ->can('update', 'user')->name('update');
+    Route::post('{product}/rating', [RatingController::class, 'setRating'])
+        ->name('setRating');
 });
 
 Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function(){

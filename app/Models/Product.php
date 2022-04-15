@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use App\Services\FileStorageService;
+use Illuminate\Support\Facades\Auth;
 use willvincent\Rateable\Rateable;
 
 /**
@@ -45,7 +47,7 @@ use willvincent\Rateable\Rateable;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property-read Collection|Category[] $categories
  * @property-read int|null $categories_count
  * @property-read Collection|Image[] $images
@@ -53,9 +55,9 @@ use willvincent\Rateable\Rateable;
  * @property-read Collection|Order[] $orders
  * @property-read int|null $orders_count
  * @property string $thumbnail
- * @property-read \App\Models\Category $category
+ * @property-read Category $category
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereThumbnail($value)
- * @property-read Collection|\App\Models\User[] $followers
+ * @property-read Collection|User[] $followers
  * @property-read int|null $followers_count
  */
 class Product extends Model
@@ -116,5 +118,11 @@ class Product extends Model
         return Attribute::make(
             get: static fn($values, $attributes) => $attributes['count'] > 0,
         );
+    }
+
+    public function getUserRating()
+    {
+        $ratings = $this->ratings()->where('rateable_id','=', $this->id)->get();
+        return $ratings->where('user_id', Auth::id())->first();
     }
 }
