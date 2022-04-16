@@ -25,7 +25,9 @@
             <div class="col-md-6">
                 <p>Price: {{ $product->price }}$</p>
                 <p>SKU: {{ $product->sku }}</p>
-                <p>Count: {{ $product->count }}</p>
+                <p>In stock: {{ $product->count }}</p>
+                <p>Average rating: {{ $product->ratingPercent() }}%</p>
+                <p>Number of ratings: {{ $product->timesRated() }}</p>
                 <hr>
                 <div>
                     <p>Product Category:
@@ -52,12 +54,12 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mb-2">Buy</button>
                             </form>
-                            <form class="form-horizontal poststars" action="{{ route('account.setRating', $product) }}" id="addStar"
+                            <form class="form-horizontal poststars" action="{{ route('rating.add', $product) }}" id="addStar"
                                   method="POST">
                                 @csrf
                                 <div class="form-group required">
                                     <div class="col-sm-5 stars">
-                                        @if(!is_null($product->getUserRating()))
+                                        @if(!is_null($userRating))
                                             @for($i = 5; $i >= 1; $i--)
                                                 <input class="star star-{{$i}}"
                                                        value="{{$i}}"
@@ -65,7 +67,7 @@
                                                        type="radio"
                                                        name="star"
                                                     {{
-                                                    $i === $product->getUserRating()->rating
+                                                    $i === $userRating->rating
                                                     ? 'checked'
                                                     : ''
                                                     }}
@@ -86,7 +88,6 @@
                                         @endif
                                     </div>
                                 </div>
-                                <input type="submit" value="submit">
                             </form>
                             @if(isUserFollowed($product))
                                 <form action="{{route('wishlist.delete' , $product->id)}}" method="POST">

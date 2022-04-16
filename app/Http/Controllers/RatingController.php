@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    public function setRating(Request $request, Product $product)
+    public function add(Request $request, Product $product): RedirectResponse
     {
-//        dd($request->input('star'), $product);
         $product->rateOnce($request->input('star'));
-        return back();
-        //TODO finish method
+        return redirect()->back();
     }
 }

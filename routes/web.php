@@ -52,10 +52,6 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
     Route::resource('category', CategoryController::class)->except('show');
 });
 
-//Route::resource('account', UserAccountController::class)->only(['show', 'edit', 'update']);
-//    ->middleware('auth')
-//    ->only(['show', 'edit', 'update']);
-
 Route::prefix('account')->name('account.')->middleware('auth')->group(static function () {
     Route::get('{user}', [UserAccountController::class, 'show'])
         ->can('view', 'user')->name('show');
@@ -63,8 +59,10 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('edit');
     Route::put('{user}', [UserAccountController::class, 'update'])
         ->can('update', 'user')->name('update');
-    Route::post('{product}/rating', [RatingController::class, 'setRating'])
-        ->name('setRating');
+});
+
+Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){
+    Route::post('{product}/add', [RatingController::class, 'add'])->name('add');
 });
 
 Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function(){
