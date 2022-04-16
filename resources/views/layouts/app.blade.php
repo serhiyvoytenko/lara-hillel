@@ -40,6 +40,7 @@
                 </ul>
 
                 <!-- Right Side Of Navbar -->
+                @include('partials/language_switcher')
                 <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->
                         <li class="nav-item">
@@ -74,7 +75,7 @@
                     @else
                         @if(auth()->check() && isAdmin(auth()->id()))
                             <li>
-                                <a href="{{route('admin.product.index')}}" class="nav-link">Admin panel</a>
+                                <a href="{{route('admin.product.index')}}" class="nav-link">{{ __('Admin panel') }}</a>
                             </li>
                         @endif
                             <li class="nav-item">

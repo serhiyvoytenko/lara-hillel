@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Repositories\CommentRepository;
 use Illuminate\Support\ServiceProvider;
 
-class OrderServiceProvider extends ServiceProvider
+class CommentRepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -15,10 +13,7 @@ class OrderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            OrderRepositoryInterface::class,
-            CommentRepository::class
-        );
+        //
     }
 
     /**

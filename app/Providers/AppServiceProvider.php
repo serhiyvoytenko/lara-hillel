@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -22,9 +22,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Paginator::useBootstrapFour();
+
+        view()->composer('partials.language_switcher', function ($view) {
+            $view->with('current_locale', app()->getLocale());
+            $view->with('available_locales', config('app.available_locales'));
+        });
     }
 }

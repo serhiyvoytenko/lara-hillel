@@ -54,7 +54,8 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mb-2">Buy</button>
                             </form>
-                            <form class="form-horizontal poststars" action="{{ route('rating.add', $product) }}" id="addStar"
+                            <form class="form-horizontal poststars" action="{{ route('rating.add', $product) }}"
+                                  id="addStar"
                                   method="POST">
                                 @csrf
                                 <div class="form-group required">
@@ -111,6 +112,25 @@
             <div class="col-md-10 text-center">
                 <h4>Description: </h4>
                 <p>{{ $product->description }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h4>Comments</h4>
+            </div>
+            <br>
+            <div class="row">
+                @foreach($product->comments as $comment)
+                    @include('comments/single_comment', ['comment' => $comment, 'model' => $product])
+                @endforeach
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                <br>
+                @include('comments/form', ['model' => $product])
             </div>
         </div>
     </div>

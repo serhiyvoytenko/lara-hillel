@@ -6,7 +6,7 @@
 
         </a>
         <div class="card-body">
-            <b><p class="card-text">{{$product->title}}</p></b>
+            <b><p class="card-text">{{__($product->title)}}</p></b>
             <p>{{$product->short_description}}</p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">

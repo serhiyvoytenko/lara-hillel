@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriesController as CustomerCategoryController;
 use App\Http\Controllers\Ajax\RemoveImagesController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RatingController;
@@ -25,9 +26,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('welcome');
 });
+
+Route::get('language/{locale}', static function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+
+    return redirect()->back();
+})->name('language.switcher');
 
 
 Auth::routes();
@@ -69,6 +77,10 @@ Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static f
     Route::post('{product}/add', [WishListController::class, 'add'])->name('add');
     Route::delete('{product}/delete', [WishListController::class, 'delete'])->name('delete');
     Route::get('/', [WishListController::class, 'index'])->name('index');
+});
+
+Route::prefix('comment')->name('comment.')->middleware('auth')->group(static function () {
+    Route::post('add', [CommentsController::class, 'add'])->name('add');
 });
 
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');

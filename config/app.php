@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -96,6 +96,20 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available locales
+    |--------------------------------------------------------------------------
+    |
+    | List all locales that your application works with
+    |
+    */
+
+    'available_locales' => [
+        'English' => 'en',
+        'Ukrainian' => 'ua',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -177,7 +191,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\OrderServiceProvider::class,
-
+        App\Providers\CommentRepositoryServiceProvider::class,
     ],
 
     /*

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Database\Factories\ProductFactory;
 use Eloquent;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,22 +33,22 @@ use willvincent\Rateable\Rateable;
  * @property int $image_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static \Database\Factories\ProductFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereDiscount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereImageId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereShortDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ * @method static ProductFactory factory(...$parameters)
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereCategoryId($value)
+ * @method static Builder|Product whereCount($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereDescription($value)
+ * @method static Builder|Product whereDiscount($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereImageId($value)
+ * @method static Builder|Product wherePrice($value)
+ * @method static Builder|Product whereShortDescription($value)
+ * @method static Builder|Product whereSku($value)
+ * @method static Builder|Product whereTitle($value)
+ * @method static Builder|Product whereUpdatedAt($value)
  * @mixin Eloquent
  * @property-read Collection|Category[] $categories
  * @property-read int|null $categories_count
@@ -56,7 +58,7 @@ use willvincent\Rateable\Rateable;
  * @property-read int|null $orders_count
  * @property string $thumbnail
  * @property-read Category $category
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereThumbnail($value)
+ * @method static Builder|Product whereThumbnail($value)
  * @property-read Collection|User[] $followers
  * @property-read int|null $followers_count
  */
@@ -99,6 +101,14 @@ class Product extends Model
             'product_id',
             'user_id'
         );
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(
+            Comment::class,
+            'commentable'
+        )->whereNull('parent_id');
     }
 
 
