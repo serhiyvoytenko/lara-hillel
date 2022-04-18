@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\CommentRepository;
+use App\Repositories\Contracts\CommentRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class CommentRepositoryServiceProvider extends ServiceProvider
@@ -11,9 +13,12 @@ class CommentRepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        //
+        $this->app->bind(
+            CommentRepositoryInterface::class,
+            CommentRepository::class
+        );
     }
 
     /**
@@ -21,7 +26,7 @@ class CommentRepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }

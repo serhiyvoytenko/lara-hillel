@@ -3,8 +3,9 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Comment;
+use Illuminate\Http\Request;
 
 interface CommentRepositoryInterface
 {
-    public function create(Comment $comment, string $model, int $id): Comment|bool;
+    public function create(Request $request, string $model): Comment;
 }

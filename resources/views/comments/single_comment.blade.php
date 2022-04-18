@@ -1,7 +1,8 @@
 <div class="col-12 d-flex flex-column justify-content-center align-items-center">
     <div class="card" style="width: 80%;">
         <div class="card-header">
-            <strong>{{ $comment->user->full_name }}</strong>
+{{--            <strong>{{ $comment->user->full_name }}</strong>--}}
+            <strong>{{ $comment->user->name }}</strong>
         </div>
         <div class="card-body">
             <p class="card-text">{{ $comment->body }}</p>

@@ -138,6 +138,8 @@ class User extends Authenticatable
         );
     }
 
+//    public function
+
     public function addProductToWish(Product $product): void
     {
         if (!isUserFollowed($product)) {
