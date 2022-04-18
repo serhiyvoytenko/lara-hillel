@@ -64,8 +64,10 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $orders_count
  * @method static Builder|User whereBalance($value)
  * @property-read Collection|Product[] $wishes
- * @method  BelongsToMany $wishes()
+ * @method BelongsToMany $wishes()
  * @property-read int|null $wishes_count
+ * @property-read Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
  */
 class User extends Authenticatable
 {
@@ -138,7 +140,12 @@ class User extends Authenticatable
         );
     }
 
-//    public function
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->getAttribute('name') . ' ' . $this->getAttribute('surname'),
+        );
+    }
 
     public function addProductToWish(Product $product): void
     {

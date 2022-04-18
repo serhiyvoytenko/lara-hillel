@@ -82,6 +82,8 @@ Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static f
 Route::prefix('comment')->name('comment.')->middleware('auth')->group(static function () {
     Route::post('add', [CommentsController::class, 'add'])->name('add');
     Route::post('reply', [CommentsController::class, 'reply'])->name('reply');
+    Route::delete('delete', [CommentsController::class, 'delete'])->name('delete');
+    Route::put('update', [CommentsController::class, 'update'])->name('update');
 });
 
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');

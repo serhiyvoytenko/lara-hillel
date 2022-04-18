@@ -21,6 +21,7 @@ class CommentRepository implements CommentRepositoryInterface
         $comment->setAttribute('body', $request->input('body'));
         $comment->setAttribute('commentable_type', $model);
         $comment->setAttribute('commentable_id', $request->input('model_id'));
+        $comment->setAttribute('parent_id', $request->input('parent_id'));
         $comment->setAttribute('user_id', Auth::id());
         if ($comment->save()){
             return $comment;
@@ -29,4 +30,12 @@ class CommentRepository implements CommentRepositoryInterface
     }
 
 
+    public function remove(Request $request): bool
+    {
+        if(Comment::where('parent_id', $request->input('comment'))->get()->isEmpty()){
+            Comment::destroy($request->input('comment'));
+            return true;
+        }
+        throw new RuntimeException('Comment has replies, please delete them fist.');
+    }
 }

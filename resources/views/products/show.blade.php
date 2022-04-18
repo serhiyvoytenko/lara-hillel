@@ -120,6 +120,20 @@
             <div class="col-12 text-center">
                 <h4>Comments</h4>
             </div>
+            @if(session('error'))
+                <div class="alert alert-info">
+                    {{ session('error') }}
+                </div>
+            @endif
+{{--            @if ($errors->any())--}}
+{{--                <div class="alert alert-danger">--}}
+{{--                    <ul>--}}
+{{--                        @foreach ($errors->all() as $error)--}}
+{{--                            <li>{{ $error }}</li>--}}
+{{--                        @endforeach--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            @endif--}}
             <br>
             <div class="row">
                 @foreach($product->comments as $comment)
