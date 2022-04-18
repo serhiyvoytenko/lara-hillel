@@ -26,8 +26,8 @@ class CommentsController extends Controller
         try {
             if ($request->validated()) {
                 $commentRepository->create($request);
-                return redirect()->back();
             }
+            return redirect()->back();
         } catch (RuntimeException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
