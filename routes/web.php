@@ -13,6 +13,8 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Admin\OrdersController as AdminOrdersController;
+use \App\Http\Controllers\Account\OrdersController as AccountOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +60,12 @@ Route::post('cart/{product}/count', [CartController::class, 'countUpdate'])->nam
 Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(static function () {
     Route::resource('product', ProductController::class)->except('show');
     Route::resource('category', CategoryController::class)->except('show');
+    Route::get('orders', [AdminOrdersController::class, 'index'])
+        ->name('orders.index');
+    Route::get('orders/{order}/show', [AdminOrdersController::class, 'show'])
+        ->name('orders.show');
+    Route::get('orders/{order}/update', [AdminOrdersController::class, 'update'])
+        ->name('orders.update');
 });
 
 Route::prefix('account')->name('account.')->middleware('auth')->group(static function () {
@@ -67,6 +75,12 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('edit');
     Route::put('{user}', [UserAccountController::class, 'update'])
         ->can('update', 'user')->name('update');
+    Route::get('orders', [AccountOrdersController::class, 'index'])
+        ->name('index');
+    Route::get('orders/{order}/show', [AccountOrdersController::class, 'show'])
+        ->name('show');
+    Route::put('orders/{order}/cancel', [AccountOrdersController::class, 'cancel'])
+        ->name('cancel');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){
