@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Repositories\CommentRepository;
+use App\Repositories\OrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class OrderServiceProvider extends ServiceProvider
@@ -17,7 +17,7 @@ class OrderServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             OrderRepositoryInterface::class,
-            CommentRepository::class
+            OrderRepository::class
         );
     }
 

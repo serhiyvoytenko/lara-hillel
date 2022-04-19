@@ -64,7 +64,7 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
         ->name('orders.index');
     Route::get('orders/{order}/show', [AdminOrdersController::class, 'show'])
         ->name('orders.show');
-    Route::get('orders/{order}/update', [AdminOrdersController::class, 'update'])
+    Route::put('orders/{order}/update', [AdminOrdersController::class, 'update'])
         ->name('orders.update');
 });
 
@@ -75,12 +75,12 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->can('update', 'user')->name('edit');
     Route::put('{user}', [UserAccountController::class, 'update'])
         ->can('update', 'user')->name('update');
-    Route::get('orders', [AccountOrdersController::class, 'index'])
-        ->name('index');
+    Route::get('orders/index', [AccountOrdersController::class, 'index'])
+        ->name('orders.index');
     Route::get('orders/{order}/show', [AccountOrdersController::class, 'show'])
-        ->name('show');
+        ->name('order.show');
     Route::put('orders/{order}/cancel', [AccountOrdersController::class, 'cancel'])
-        ->name('cancel');
+        ->name('order.cancel');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){

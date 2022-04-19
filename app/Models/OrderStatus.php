@@ -33,7 +33,7 @@ class OrderStatus extends Model
 
     public function orders(): HasMany
     {
-        return $this->HasMany(Order::class);
+        return $this->HasMany(Order::class, 'status_id', 'id');
     }
 
     public function scopeDefaultStatus($query)

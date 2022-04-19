@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
@@ -16,11 +18,14 @@ class OrdersController extends Controller
 
     public function show(Order $order): Renderable
     {
-        return view('admin.show-order');
+        $orderStatuses = OrderStatus::get();
+        return view('admin.show-order', compact('order', 'orderStatuses'));
     }
 
-    public function update(Order $order): RedirectResponse
+    public function update(Request $request, Order $order): RedirectResponse
     {
+        $order->status_id = $request->input('status');
+        $order->save();
         return redirect()->back();
     }
 }

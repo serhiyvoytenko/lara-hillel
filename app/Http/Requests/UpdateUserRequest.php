@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
             'surname' => ['min:4', 'max:30'],
             'birthdate' => ['date', 'min:4', 'max:30'],
             'phone' => ['min:6', 'max:13'],
-            'email' => ['string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
+            'email' => ['email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
             'balance' => ['required', 'numeric'],
         ];
     }

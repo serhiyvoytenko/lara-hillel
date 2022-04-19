@@ -70,7 +70,7 @@ class Order extends Model
 
     public function orderStatus(): BelongsTo
     {
-        return $this->belongsTo(OrderStatus::class);
+        return $this->belongsTo(OrderStatus::class, 'status_id', 'id');
     }
 
     public function user(): BelongsTo
