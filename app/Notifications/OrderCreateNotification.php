@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Telegram\TelegramMessage;
 
 class OrderCreateNotification extends Notification
 {
@@ -35,7 +36,7 @@ class OrderCreateNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'telegram',];
     }
 
     /**
@@ -44,16 +45,20 @@ class OrderCreateNotification extends Notification
      * @param mixed $notifiable
 //     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): NewOrderForCustomer|NewOrderForAdmin
     {
 
         $notification = isAdmin($this->user->id) ? NewOrderForAdmin::class : NewOrderForCustomer::class;
 
         return (new $notification($this->orderId, $this->user->full_name))->to($this->user);
-//        return (new MailMessage)
-//                    ->line('The introduction to the notification.')
-//                    ->action('Notification Action', url('/'))
-//                    ->line('Thank you for using our application!');
+    }
+
+    public function toTelegram(mixed $notifiable): TelegramMessage
+    {
+        logs()->debug(__CLASS__ . ' ' .$this->user->telegram_id);
+        return TelegramMessage::create()
+            ->to($this->user->telegram_id)
+            ->content("Hello there!\nYour invoice has been *PAID*");
     }
 
     /**

@@ -1,6 +1,6 @@
 @component('mail::message')
 
-    Уведомление для <h2>админа</h2> {{ $full_name }}
+    Message for <h2>Administrator  {{ $full_name }}</h2>
 
     @component('mail::button', ['url' => route('admin.orders.show', $orderId)])
         Button Text
