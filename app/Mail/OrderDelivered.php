@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewOrderForCustomer extends NewOrderBase
+class OrderDelivered extends NewOrderBase
 {
     /**
      * Build the message.
@@ -17,7 +17,7 @@ class NewOrderForCustomer extends NewOrderBase
     public function build(): self
     {
         return $this
-            ->markdown('email.order_created.customer',
+            ->markdown('email.delivery.customer_order_delivered',
                 ['orderId' => $this->orderId, 'full_name' => $this->full_name]);
     }
 }
