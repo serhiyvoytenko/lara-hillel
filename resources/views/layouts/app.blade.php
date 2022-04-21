@@ -24,7 +24,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/home') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -40,8 +40,26 @@
                 </ul>
 
                 <!-- Right Side Of Navbar -->
+                @include('partials/language_switcher')
                 <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->
+                        <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cart') }}">
+                             {{ __('Cart') }} @if(Cart::instance('shopping')->count() > 0) - {{ Cart::instance('shopping')->count() }} @endif
+                        </a>
+                    </li>
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('wishlist.index') }}">
+                            {{ __('Wishes List') }} @if(Auth::user()?->wishes()->count() > 0) - {{ Auth::user()->wishes()->count() }} @endif
+                        </a>
+                    </li>
+                    @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('categories.index') }}">
+                            {{ __('View all categories') }}
+                        </a>
+                    </li>
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
@@ -57,9 +75,19 @@
                     @else
                         @if(auth()->check() && isAdmin(auth()->id()))
                             <li>
-                                <a href="{{route('admin.product.index')}}" class="nav-link">Admin panel</a>
+                                <a href="{{route('admin.product.index')}}" class="nav-link">{{ __('Admin panel') }}</a>
                             </li>
                         @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('account.show', Auth::user()) }}">
+                                    {{ __('View profile') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('account.orders.index') }}">
+                                    {{ __('View my orders') }}
+                                </a>
+                            </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

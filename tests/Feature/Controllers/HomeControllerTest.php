@@ -39,7 +39,7 @@ class HomeControllerTest extends TestCase
         $response = $this->actingAs(User::get()->first())->get('home');
 
         $response->assertStatus(200);
-        $response->assertSee('You are logged in!');
+        $response->assertSee('Home page');
     }
 
 }

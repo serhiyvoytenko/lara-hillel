@@ -46,6 +46,8 @@ class Image extends Model
 
     protected $fillable = [
         'path',
+        'imageable_id',
+        'imageable_type',
     ];
 
     public function products(): BelongsTo

@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property-read \App\Models\Image|null $image
  * @property-read int|null $products_count
  * @property-write mixed $thumbnail
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereThumbnail($value)
  */
 class Category extends Model
 {

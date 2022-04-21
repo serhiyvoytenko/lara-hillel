@@ -33,7 +33,7 @@ class StoreProductRequest extends FormRequest
             'price' => ['required', 'min:1', 'max:9'],
             'discount' => ['required', 'min:1', 'max:3'],
             'count' => ['required', 'min:1', 'max:9'],
-            'thumbnail' => ['required', 'image:jpg,jpeg,bmp,png'],
+            'thumbnail' => ['image:jpg,jpeg,bmp,png'],
             'images.*' => ['image:jpeg,png'],
         ];
     }

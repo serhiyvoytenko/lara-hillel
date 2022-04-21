@@ -12,7 +12,11 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
+                        @if(!empty($error))
+                                <div class="alert alert-success" role="alert">
+                                    {{ $error->getMessage() }}
+                                </div>
+                            @endif
                         {{ __('You are logged in!') }}
                         <hr>
                         <a href="admin/product">Add product</a>

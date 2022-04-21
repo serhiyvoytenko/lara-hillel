@@ -65,11 +65,10 @@ class CategoryController extends Controller
      * @param int $id
      * @return Response
      */
-    public function edit(int $id): Response
+    public function edit(Category $category): Response
     {
-        $category = Category::whereId($id)->first();
-
-        return \response()->view('admin.edit-category', compact('category'));
+//        $category = Category::whereId($id)->first();
+        return response()->view('admin.edit-category', compact('category'));
     }
 
     /**
@@ -102,13 +101,13 @@ class CategoryController extends Controller
 
         if (Product::where('category_id', $id)->first()) {
             return redirect()->route('admin.category.index')
-                ->with('warn', 'Category "' . $title . '" contains some products. Please remove them first.');
+                ->with('warn', 'Category ' . $title . ' contains some products. Please remove them first.');
         }
 
         FileStorageService::remove(Category::whereId($id)->first()?->getAttributeValue('thumbnail') ?? '');
         Category::whereId($id)->delete();
 
         return redirect()->route('admin.category.index')
-            ->with('status', 'Category "' . $title . '" was deleted successfully!');
+            ->with('status', 'Category ' . $title . ' was deleted successfully!');
     }
 }
