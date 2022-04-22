@@ -7,7 +7,6 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\FileStorageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -74,17 +73,6 @@ class ProductController extends Controller
         }
     }
 
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function show($id)
-//    {
-//        //
-//    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,6 +94,7 @@ class ProductController extends Controller
      * @param UpdateProductRequest $request
      * @param int $id
      * @return RedirectResponse
+     * @throws Throwable
      */
     public function update(UpdateProductRequest $request, int $id): RedirectResponse
     {

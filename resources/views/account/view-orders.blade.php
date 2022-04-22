@@ -25,12 +25,15 @@
             <div>
                 <table class="table table-secondary table-striped align-content-center">
                     <thead>
-                    <th>{{ __('Order\'s ID') }}</th>
-                    <th>{{ __('User name') }}</th>
-                    <th>{{ __('Order\'s date') }}</th>
-                    <th>{{ __('Order\'s total sum') }}</th>
-                    <th>{{ __('Review order') }}</th>
-                    <th>{{ __('Order\'s status') }}</th>
+                    <tr>
+                        <th>{{ __('Order\'s ID') }}</th>
+                        <th>{{ __('User name') }}</th>
+                        <th>{{ __('Order\'s date') }}</th>
+                        <th>{{ __('Order\'s total sum') }}</th>
+                        <th>{{ __('Review order') }}</th>
+                        <th>{{ __('Order\'s status') }}</th>
+                        <th>{{ __('Invoice') }}</th>
+                    </tr>
                     </thead>
                     <tbody>
                     @each('account.parts.orders-table', $orders, 'order')

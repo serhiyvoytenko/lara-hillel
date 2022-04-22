@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Repositories\OrderRepository;
+use App\Services\Contracts\InvoicesServiceInterface;
+use App\Services\InvoicesService;
 use Illuminate\Support\ServiceProvider;
 
-class OrderServiceProvider extends ServiceProvider
+class InvoicesServiceServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -16,8 +16,8 @@ class OrderServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            OrderRepositoryInterface::class,
-            OrderRepository::class
+            InvoicesServiceInterface::class,
+            InvoicesService::class
         );
     }
 
@@ -28,6 +28,5 @@ class OrderServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
     }
 }

@@ -193,6 +193,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\OrderServiceProvider::class,
         App\Providers\CommentRepositoryServiceProvider::class,
+        App\Providers\InvoicesServiceServiceProvider::class,
     ],
 
     /*

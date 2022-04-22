@@ -48,26 +48,14 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index')->with('status', "Category {$fields['title']} was created successfully!");
     }
 
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param  int  $id
-//     * @return Response
-//     */
-//    public function show($id)
-//    {
-//        //
-//    }
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param Category $category
      * @return Response
      */
     public function edit(Category $category): Response
     {
-//        $category = Category::whereId($id)->first();
         return response()->view('admin.edit-category', compact('category'));
     }
 

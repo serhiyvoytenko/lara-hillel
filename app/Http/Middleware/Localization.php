@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use LaravelDaily\Invoices\Invoice;
 
 class Localization
 {
@@ -17,9 +18,9 @@ class Localization
      *
      * @param Request $request
      * @param Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return Response|RedirectResponse|JsonResponse
+     * @return Response|RedirectResponse|JsonResponse|Invoice
      */
-    public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse
+    public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse|Invoice
     {
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));

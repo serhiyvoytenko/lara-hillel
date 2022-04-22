@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Services\Contracts\InvoicesServiceInterface;
 use Auth;
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use LaravelDaily\Invoices\Invoice;
 
 class OrdersController extends Controller
 {
@@ -32,8 +36,16 @@ class OrdersController extends Controller
         return redirect()->back();
     }
 
-    public function view()
+    /**
+     * @throws Exception
+     */
+    public function downloadInvoice(Order $order, InvoicesServiceInterface $invoicesService): Response
     {
-        dd(phpinfo());
+        return $invoicesService->generate($order)->download();
+    }
+
+    public function viewInlineInvoice(Order $order, InvoicesServiceInterface $invoicesService): Response
+    {
+        return $invoicesService->generate($order)->stream();
     }
 }

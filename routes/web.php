@@ -84,6 +84,10 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->name('order.cancel');
     Route::get('telegram/callback', TelegramCallbackController::class)
         ->name('telegram.callback');
+    Route::get('invoice/{order}/download',[AccountOrdersController::class, 'downloadInvoice'])
+        ->name('invoice.download');
+    Route::get('invoice/{order}/inline', [AccountOrdersController::class, 'viewInlineInvoice'])
+        ->name('invoice.viewInline');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){
