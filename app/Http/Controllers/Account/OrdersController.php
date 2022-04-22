@@ -44,6 +44,9 @@ class OrdersController extends Controller
         return $invoicesService->generate($order)->download();
     }
 
+    /**
+     * @throws Exception
+     */
     public function viewInlineInvoice(Order $order, InvoicesServiceInterface $invoicesService): Response
     {
         return $invoicesService->generate($order)->stream();

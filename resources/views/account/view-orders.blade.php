@@ -9,7 +9,7 @@
                 </h3>
             </div>
             <div class="row justify-content-center">
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                     @empty(Auth::user()->telegram_id)
                         <script async
                                 src="https://telegram.org/js/telegram-widget.js?19"
