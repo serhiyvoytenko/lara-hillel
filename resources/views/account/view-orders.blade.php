@@ -8,6 +8,20 @@
                     {{ __('All orders') }}
                 </h3>
             </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    @empty(Auth::user()->telegram_id)
+                        <script async
+                                src="https://telegram.org/js/telegram-widget.js?19"
+                                data-telegram-login="{{ config('services.telegram-bot-api.name') }}"
+                                data-size="large"
+                                data-radius="10"
+                                data-request-access="write"
+                                data-auth-url="{{ route('account.telegram.callback') }}"
+                        ></script>
+                    @endempty
+                </div>
+            </div>
             <div>
                 <table class="table table-secondary table-striped align-content-center">
                     <thead>

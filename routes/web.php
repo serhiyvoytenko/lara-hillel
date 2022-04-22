@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\Socials\TelegramCallbackController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\CategoriesController as CustomerCategoryController;
@@ -81,6 +82,8 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->name('order.show');
     Route::put('orders/{order}/cancel', [AccountOrdersController::class, 'cancel'])
         ->name('order.cancel');
+    Route::get('telegram/callback', TelegramCallbackController::class)
+        ->name('telegram.callback');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){
