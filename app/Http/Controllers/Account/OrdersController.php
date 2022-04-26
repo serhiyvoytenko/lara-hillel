@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Services\AwsPublicLink;
+use App\Services\Contracts\AwsPublicLinkInterface;
 use App\Services\Contracts\InvoicesServiceInterface;
 use Auth;
 use Exception;
@@ -13,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use LaravelDaily\Invoices\Invoice;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrdersController extends Controller
 {

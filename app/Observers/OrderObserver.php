@@ -15,8 +15,8 @@ class OrderObserver
     public function created(Order $order): void
     {
         $admin = Role::admin()->first()?->users()->first();
-        OrderCreateNotificationJob::dispatch($order->user, $order)->onQueue('email');
-        OrderCreateNotificationJob::dispatch($admin, $order)->onQueue('email');
+//        OrderCreateNotificationJob::dispatch($order->user, $order)->onQueue('email');
+        OrderCreateNotificationJob::dispatchSync($admin, $order)->onQueue('email');
     }
 
     public function updated(Order $order): void
