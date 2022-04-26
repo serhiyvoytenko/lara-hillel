@@ -6,17 +6,11 @@ use App\Mail\NewOrderForAdmin;
 use App\Mail\NewOrderForCustomer;
 use App\Models\User;
 use App\Services\AwsPublicLink;
-use App\Services\Contracts\AwsPublicLinkInterface;
-use App\Services\Contracts\InvoicesServiceInterface;
 use App\Services\InvoicesService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Storage;
 use NotificationChannels\Telegram\TelegramFile;
-use NotificationChannels\Telegram\TelegramMessage;
 
 class OrderCreateNotification extends Notification
 {
@@ -43,7 +37,8 @@ class OrderCreateNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'telegram',];
+//        return ['mail', 'telegram',];
+        return ['telegram'];
     }
 
     /**
@@ -71,7 +66,7 @@ class OrderCreateNotification extends Notification
         $link = $awsPublicLink->generate($invoice->filename);
 
 //        logs()->info($notifiable->id);
-//        logs()->info($invoice->filename);
+        logs()->info($invoice->filename);
 //        logs()->info($link);
 
         $route = route('account.order.show', $notifiable);
