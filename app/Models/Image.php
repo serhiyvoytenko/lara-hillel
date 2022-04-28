@@ -50,11 +50,6 @@ class Image extends Model
         'imageable_type',
     ];
 
-    public function products(): BelongsTo
-    {
-        return $this->belongsTo(Product::class);
-    }
-
     public function imageable(): MorphTo
     {
         return $this->morphTo();

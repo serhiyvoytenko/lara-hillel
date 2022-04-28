@@ -1,3 +1,4 @@
+@auth()
 <form method="post" action="{{ route('comment.add') }}" style="width: 50%;">
     @csrf
     <div class="form-group">
@@ -12,3 +13,4 @@
         <input type="submit" class="btn btn-warning" value="Add Comment" />
     </div>
 </form>
+@endauth

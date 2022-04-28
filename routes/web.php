@@ -3,6 +3,7 @@
 use App\Http\Controllers\Account\Socials\TelegramCallbackController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoriesController as CustomerCategoryController;
 use App\Http\Controllers\Ajax\RemoveImagesController;
 use App\Http\Controllers\CartController;
@@ -28,10 +29,10 @@ use \App\Http\Controllers\Account\OrdersController as AccountOrdersController;
 |
 */
 
-
-Route::get('/', static function () {
-    return view('welcome');
-});
+//
+//Route::get('/', static function () {
+//    return view('welcome');
+//});
 
 Route::get('language/{locale}', static function ($locale) {
     app()->setLocale($locale);
@@ -44,6 +45,7 @@ Route::get('language/{locale}', static function ($locale) {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/error', [App\Http\Controllers\HomeController::class, 'error'])->name('error');
 
@@ -67,6 +69,7 @@ Route::prefix("admin")->name('admin.')->middleware(['auth', 'isAdmin'])->group(s
         ->name('orders.show');
     Route::put('orders/{order}/update', [AdminOrdersController::class, 'update'])
         ->name('orders.update');
+    Route::resource('users', UserController::class);
 });
 
 Route::prefix('account')->name('account.')->middleware('auth')->group(static function () {
@@ -84,17 +87,17 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->name('order.cancel');
     Route::get('telegram/callback', TelegramCallbackController::class)
         ->name('telegram.callback');
-    Route::get('invoice/{order}/download',[AccountOrdersController::class, 'downloadInvoice'])
+    Route::get('invoice/{order}/download', [AccountOrdersController::class, 'downloadInvoice'])
         ->name('invoice.download');
     Route::get('invoice/{order}/inline', [AccountOrdersController::class, 'viewInlineInvoice'])
         ->name('invoice.viewInline');
 });
 
-Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function(){
+Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function () {
     Route::post('{product}/add', [RatingController::class, 'add'])->name('add');
 });
 
-Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function(){
+Route::prefix('wishlist')->name('wishlist.')->middleware('auth')->group(static function () {
     Route::post('{product}/add', [WishListController::class, 'add'])->name('add');
     Route::delete('{product}/delete', [WishListController::class, 'delete'])->name('delete');
     Route::get('/', [WishListController::class, 'index'])->name('index');

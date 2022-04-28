@@ -33,7 +33,6 @@
                     <p>Product Category:
                         <b> @include('categories.parts.category_view', ['category' => $product->category])</b></p>
                 </div>
-                @auth
                     @if($product->count > 0)
                         <hr>
                         <div>
@@ -54,6 +53,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-sm mb-2">Buy</button>
                             </form>
+                            @auth
                             <form class="form-horizontal poststars" action="{{ route('rating.add', $product) }}"
                                   id="addStar"
                                   method="POST">

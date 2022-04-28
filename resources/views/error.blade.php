@@ -18,6 +18,7 @@
                                 </div>
                             @endif
                         {{ __('You are logged in!') }}
+                            {{ phpinfo() }}
                         <hr>
                         <a href="admin/product">Add product</a>
                     </div>
