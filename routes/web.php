@@ -10,6 +10,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\Payments\PaypalPaymentController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserAccountController;
@@ -91,6 +92,13 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->name('invoice.download');
     Route::get('invoice/{order}/inline', [AccountOrdersController::class, 'viewInlineInvoice'])
         ->name('invoice.viewInline');
+    Route::post('paypal/order/create', [PaypalPaymentController::class, 'create'])
+        ->name('paypal.create');
+    Route::get('paypal/test', static function () {
+        return view('checkout.payments.test');
+    });
+    Route::post('paypal/order/{order}/capture', [PaypalPaymentController::class, 'capture'])
+        ->name('paypal.capture');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function () {

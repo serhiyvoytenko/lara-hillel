@@ -101,6 +101,13 @@
                             <td>{{ $cart->total() }}</td>
                         </tr>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                @include('checkout.payments.paypal')
+                            </td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
