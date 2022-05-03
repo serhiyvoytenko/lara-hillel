@@ -92,13 +92,6 @@ Route::prefix('account')->name('account.')->middleware('auth')->group(static fun
         ->name('invoice.download');
     Route::get('invoice/{order}/inline', [AccountOrdersController::class, 'viewInlineInvoice'])
         ->name('invoice.viewInline');
-    Route::post('paypal/order/create', [PaypalPaymentController::class, 'create'])
-        ->name('paypal.create');
-    Route::get('paypal/test', static function () {
-        return view('checkout.payments.test');
-    });
-    Route::post('paypal/order/{order}/capture', [PaypalPaymentController::class, 'capture'])
-        ->name('paypal.capture');
 });
 
 Route::prefix('rating')->name('rating.')->middleware('auth')->group(static function () {
@@ -120,3 +113,13 @@ Route::prefix('comment')->name('comment.')->middleware('auth')->group(static fun
 
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');
 Route::post('order', OrdersController::class)->middleware('auth')->name('order');
+
+Route::namespace('Payments')->group(static function(){
+    Route::post('paypal/order/create', [PaypalPaymentController::class, 'create'])
+        ->name('paypal.create');
+    Route::get('paypal/test', static function () {
+        return view('checkout.payments.test');
+    });
+    Route::post('paypal/order/{order}/capture', [PaypalPaymentController::class, 'capture'])
+        ->name('paypal.capture');
+});

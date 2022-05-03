@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\OrderStatus;
+use App\Models\Transaction;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Database\Eloquent\Model;
@@ -10,47 +11,43 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Throwable;
+use App\Models\Order;
+
 
 class OrderRepository implements OrderRepositoryInterface
 {
     /**
      * @throws Throwable
      */
-    public function create(array $request): Model|bool
+    public function create(array $request): Order|bool
     {
-        $user = Auth::user();
-        $totalSum = Cart::instance('shopping')->total(2, '.', '');
+        $result = DB::transaction(function () use ($request) {
+            $user = auth()->user();
+            $total = Cart::instance('cart')->total(2, '.', '');
 
-        if ($user?->getAttribute('balance') < $totalSum) {
-            throw new RuntimeException("Add money to balance please", 200);
-        }
+            $status = OrderStatus::defaultStatus()->first();
 
-        $newBalance = $user?->getAttribute('balance') - $totalSum;
-        $status = OrderStatus::defaultStatus()->first();
-        $request = array_merge($request, [
-            'status_id' => $status->getAttribute('id'),
-            'total' => $totalSum
-        ]);
-
-        try {
-
-            DB::beginTransaction();
-
+            $request = array_merge($request, [
+                'status_id' => $status->id,
+                'total' => $total
+            ]);
             $order = $user?->orders()->create($request);
-            $user?->update(['balance' => $newBalance]);
+
             $this->addProductsToOrder($order);
 
-            DB::commit();
-
-            Cart::instance('shopping')->destroy();
             return $order;
+        });
 
-        } catch (Throwable $e) {
+        return $result;
+    }
 
-            DB::rollBack();
-            logs()->warning($e->getMessage());
+    public function setTransaction(string $transaction_order_id, Transaction $transaction): void
+    {
+        $order = Order::where('vendor_order_id', $transaction_order_id)->first();
 
-            return false;
+        if ($order) {
+            $order->transaction_id = $transaction->id;
+            $order->save();
         }
     }
 

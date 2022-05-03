@@ -66,7 +66,9 @@ class Order extends Model
         'address',
         'total',
         'status_id',
-        'user_id'
+        'user_id',
+        'vendor_order_id',
+        'transaction_id',
     ];
 
     public function orderStatus(): BelongsTo
@@ -82,5 +84,10 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'single_price']);
+    }
+
+    public function transaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

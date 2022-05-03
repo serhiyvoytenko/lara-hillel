@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOrderRequest extends FormRequest
+class CreateOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,5 +34,14 @@ class StoreOrderRequest extends FormRequest
             'address' => ['required', 'string', 'min:3', 'max:100'],
 //            'total' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
         ];
+    }
+
+    public function all($keys = null)
+    {
+        if (empty($keys)) {
+            return parent::json()?->all();
+        }
+
+        return collect(parent::json()?->all())->only($keys)->toArray();
     }
 }

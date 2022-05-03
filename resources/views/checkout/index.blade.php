@@ -16,7 +16,7 @@
         <div class="row justify-content-center">
             <div class="row">
                 <div class="table-responsive col-md-6">
-                    <form method="POST" action="{{route('order')}}">
+                    <form id="order-form" method="POST" action="{{route('order')}}">
                         @csrf
                         <table class="table table-secondary table-striped">
                             <thead>
@@ -26,7 +26,11 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td><input type="text" name="name" placeholder="First name"> First name of recipient
+                                <td><input type="text" name="name" placeholder="First name"
+{{--                                           class="@error('name') is-invalid @enderror"--}}
+{{--                                           autofocus--}}
+                                    >
+                                    First name of recipient
                                 </td>
                             </tr>
                             <tr>
@@ -37,7 +41,11 @@
                                 <td><input type="text" name="phone" placeholder="Phone"> Phone of recipient</td>
                             </tr>
                             <tr>
-                                <td><input type="email" name="email" placeholder="Email"> Email of recipient</td>
+                                <td><input type="email" name="email" placeholder="Email"
+{{--                                           class="@error('name') is-invalid @enderror"--}}
+                                    >
+                                    Email of recipient
+                                </td>
                             </tr>
                             <tr>
                                 <td><input type="text" name="country" placeholder="County"> Country of recipient</td>

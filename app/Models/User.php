@@ -135,11 +135,15 @@ class User extends Authenticatable
         )->withTimestamps();
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
     public function instanceCartName(): Attribute
     {
         return Attribute::make(

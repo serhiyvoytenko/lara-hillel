@@ -53,7 +53,7 @@ paypal.Buttons({
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
+        // console.log(fields);
         return $.ajax({
             url: '/paypal/order/create',
             type: 'POST',
