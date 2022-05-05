@@ -21,7 +21,15 @@
 
         // Call your server to set up the transaction
         createOrder: function(data, actions) {
-            return fetch('/account/paypal/order/create/', {
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            // console.log(fields);
+
+            return fetch('/paypal/order/create/', {
                 method: 'post'
             }).then(function(res) {
                 return res.json();
@@ -32,7 +40,7 @@
 
         // Call your server to finalize the transaction
         onApprove: function(data, actions) {
-            return fetch('/account/paypal/order/' + data.orderID + '/capture/', {
+            return fetch('/paypal/order/' + data.orderID + '/capture/', {
                 method: 'post'
             }).then(function(res) {
                 return res.json();

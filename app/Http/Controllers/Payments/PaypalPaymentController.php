@@ -48,10 +48,10 @@ class PaypalPaymentController extends Controller
             ]
         ]);
         $request = $request->validated();
-//        dd($total, $paypalOrder);
         $request['vendor_order_id'] = $paypalOrder['id'];
 
         $order = $repository->create($request);
+//        dd($total, $paypalOrder, $order);
 
         return response()->json($order);
     }
