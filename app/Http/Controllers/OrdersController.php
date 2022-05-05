@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrderRequest;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use RuntimeException;
 
 class OrdersController extends Controller
@@ -13,7 +12,7 @@ class OrdersController extends Controller
     /**
      * Handle the incoming request.
      *
-//     * @param CreateOrderRequest $request
+     * @param CreateOrderRequest $request
      * @param OrderRepositoryInterface $orderRepository
      * @return Renderable
      */

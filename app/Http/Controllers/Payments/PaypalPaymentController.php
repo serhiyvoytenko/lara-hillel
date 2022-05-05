@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Srmklive\PayPal\Services\PayPal as PaypalClient;
 use Throwable;
+use Illuminate\Contracts\Support\Renderable;
+
 
 class PaypalPaymentController extends Controller
 {
@@ -51,7 +53,6 @@ class PaypalPaymentController extends Controller
         $request['vendor_order_id'] = $paypalOrder['id'];
 
         $order = $repository->create($request);
-//        dd($total, $paypalOrder, $order);
 
         return response()->json($order);
     }
@@ -64,7 +65,6 @@ class PaypalPaymentController extends Controller
         DB::beginTransaction();
         try {
             $result = $this->paypalClient->capturePaymentOrder($orderId);
-//            dd($result);
             if ($result['status'] === 'COMPLETED') {
                 $transaction = new Transaction();
                 $transaction->vendor_payment_id = $result['id'];
@@ -74,11 +74,13 @@ class PaypalPaymentController extends Controller
                 $transaction->save();
 
                 $repository->setTransaction($result['id'], $transaction);
+                Cart::instance('shopping')->destroy();
             }
 
             DB::commit();
 
             return response()->json($result);
+
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 422);

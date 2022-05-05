@@ -99,7 +99,7 @@ paypal.Buttons({
                 return res.json();
             }).then(function (orderData) {
 
-                console.log(orderData);
+                // console.log(orderData);
 
                 var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
 
@@ -117,21 +117,21 @@ paypal.Buttons({
                         iziToastOpts['message'] = errorDetail.description;
                     }
 
-                    // iziToast.error(iziToastOpts);
-                    console.log(iziToastOpts);
+                    iziToast.error(iziToastOpts);
+                    // console.log(iziToastOpts);
                     return false;
                 }
 
-                console.log({
-                    title: 'Payment process was successfully done!',
-                    position: 'topCenter',
-                    onClosing: () => { window.location.href = `/paypal/order/${orderData.id}/thankyou` }
-                });
-                // iziToast.success({
+                // console.log({
                 //     title: 'Payment process was successfully done!',
                 //     position: 'topCenter',
                 //     onClosing: () => { window.location.href = `/paypal/order/${orderData.id}/thankyou` }
                 // });
+                iziToast.success({
+                    title: 'Payment process was successfully done!',
+                    position: 'topCenter',
+                    onClosing: () => { window.location.href = `/paypal/order/${orderData.id}/thankyou` }
+                });
             });
         }
     }

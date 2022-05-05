@@ -114,12 +114,15 @@ Route::prefix('comment')->name('comment.')->middleware('auth')->group(static fun
 Route::get('checkout', CheckoutController::class)->middleware('auth')->name('checkout');
 Route::post('order', OrdersController::class)->middleware('auth')->name('order');
 
-Route::namespace('Payments')->group(static function(){
-    Route::post('paypal/order/create', [PaypalPaymentController::class, 'create'])
-        ->name('paypal.create');
-    Route::get('paypal/test', static function () {
+Route::prefix('paypal')->name('paypal.')->group(static function () {
+    Route::post('order/create', [PaypalPaymentController::class, 'create'])
+        ->name('create');
+    Route::get('test', static function () {
         return view('checkout.payments.test');
     });
-    Route::post('paypal/order/{order}/capture', [PaypalPaymentController::class, 'capture'])
-        ->name('paypal.capture');
+    Route::post('order/{order}/capture', [PaypalPaymentController::class, 'capture'])
+        ->name('capture');
+    Route::get('order/{order}/thankyou', static function ($orderId) {
+        return view('thanks', ['message'=>$orderId]);
+    })->name('thankYou');
 });

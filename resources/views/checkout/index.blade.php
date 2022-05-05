@@ -60,8 +60,8 @@
                             <tfoot>
                             <tr>
                                 <td>
-                                    <button type="submit" class="btn btn-sm btn-primary">Create order
-                                    </button>
+{{--                                    <button type="submit" class="btn btn-sm btn-primary">Create order--}}
+{{--                                    </button>--}}
                                 </td>
                             </tr>
                             </tfoot>
