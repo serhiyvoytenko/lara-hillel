@@ -17,5 +17,6 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/category-images-preview.js', 'public/js')
     .js('resources/js/product-actions.js', 'public/js')
     .js('resources/js/paypal-payments.js', 'public/js')
+    .css('resources/css/iziToast.css', 'public/css')
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
