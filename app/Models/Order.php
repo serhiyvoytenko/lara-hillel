@@ -71,8 +71,8 @@ class Order extends Model
         'total',
         'status_id',
         'user_id',
-        'vendor_order_id',
         'transaction_id',
+        'invoice_id',
     ];
 
     public function orderStatus(): BelongsTo

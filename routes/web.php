@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\WishListController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\OrdersController as AdminOrdersController;
 use \App\Http\Controllers\Account\OrdersController as AccountOrdersController;
@@ -122,7 +123,7 @@ Route::prefix('paypal')->name('paypal.')->group(static function () {
     });
     Route::post('order/{order}/capture', [PaypalPaymentController::class, 'capture'])
         ->name('capture');
-    Route::get('order/{order}/thankyou', static function ($orderId) {
-        return view('thanks', ['message'=>$orderId]);
-    })->name('thankYou');
+    Route::get('order/{order}/thankYou', [PaypalPaymentController::class, 'thankYou'])
+        ->middleware('auth')->name('thankYou');
+//    can('view', 'order')->
 });

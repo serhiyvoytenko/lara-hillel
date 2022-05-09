@@ -7,7 +7,6 @@ use App\Models\Transaction;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Throwable;
@@ -41,9 +40,9 @@ class OrderRepository implements OrderRepositoryInterface
         return $result;
     }
 
-    public function setTransaction(string $transaction_order_id, Transaction $transaction): void
+    public function setTransaction(string $invoice_id, Transaction $transaction): void
     {
-        $order = Order::where('vendor_order_id', $transaction_order_id)->first();
+        $order = Order::where('invoice_id', $invoice_id)->first();
 
         if ($order) {
             $order->transaction_id = $transaction->id;

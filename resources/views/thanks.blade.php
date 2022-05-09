@@ -7,8 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                             <div class="alert alert-success" role="alert">
-                              {{ __('Thank you, order was successfully payed with transaction ID: ') . $message }}
-
+                              {{ __('Thank you, order was successfully payed with invoice ID: ') . $order }}
                             </div>
                     </div>
                 </div>

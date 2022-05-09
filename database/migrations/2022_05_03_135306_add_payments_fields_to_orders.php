@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', static function (Blueprint $table) {
-            $table->string('vendor_order_id')->after('user_id')->nullable();
-            $table->string('transaction_id')->after('vendor_order_id')->nullable();
+            $table->string('transaction_id')->after('user_id')->nullable();
+            $table->string('invoice_id')->after('transaction_id')->nullable();
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', static function (Blueprint $table) {
-            $table->dropColumn('vendor_order_id');
             $table->dropColumn('transaction_id');
+            $table->dropColumn('invoice_id');
         });
     }
 };

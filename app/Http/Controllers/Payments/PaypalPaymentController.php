@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Payments;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOrderRequest;
+use App\Models\Order;
 use App\Models\Transaction;
 use App\Repositories\Contracts\OrderRepositoryInterface;
+use Auth;
 use Exception;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +39,7 @@ class PaypalPaymentController extends Controller
     public function create(CreateOrderRequest $request, OrderRepositoryInterface $repository): JsonResponse
     {
         $total = Cart::instance('shopping')->total(2, '.', '');
-
+        $invoiceId = 'invoice_id_' . time() . Auth::id();
         $paypalOrder = $this->paypalClient->createOrder([
             'intent' => 'CAPTURE',
             'purchase_units' => [
@@ -45,16 +47,17 @@ class PaypalPaymentController extends Controller
                     'amount' => [
                         'currency_code' => 'USD',
                         'value' => $total
-                    ]
+                    ],
+                    'invoice_id' => $invoiceId,
                 ]
             ]
         ]);
         $request = $request->validated();
-        $request['vendor_order_id'] = $paypalOrder['id'];
-
+        $request['vendor_payment_id'] = $paypalOrder['id'];
+        $request['invoice_id'] = $invoiceId;
         $order = $repository->create($request);
 
-        return response()->json($order);
+        return response()->json([$order, 'vendor_order_id' => $paypalOrder['id']]);
     }
 
     /**
@@ -72,8 +75,8 @@ class PaypalPaymentController extends Controller
                 $transaction->user_id = auth()->id();
                 $transaction->status = $result['status'];
                 $transaction->save();
-
-                $repository->setTransaction($result['id'], $transaction);
+//dd($result['purchase_units'][0]['payments']['captures'][0]['invoice_id']);
+                $repository->setTransaction($result['purchase_units'][0]['payments']['captures'][0]['invoice_id'], $transaction);
                 Cart::instance('shopping')->destroy();
             }
 
@@ -87,4 +90,9 @@ class PaypalPaymentController extends Controller
         }
     }
 
+    public function thankYou(Request $order): Renderable
+    {
+//        dd($order_id->route('order_id'));
+        return view('thanks', ['order' => $order->route('order_id')]);
+    }
 }
