@@ -75,8 +75,9 @@ class PaypalPaymentController extends Controller
                 $transaction->user_id = auth()->id();
                 $transaction->status = $result['status'];
                 $transaction->save();
-//dd($result['purchase_units'][0]['payments']['captures'][0]['invoice_id']);
+
                 $repository->setTransaction($result['purchase_units'][0]['payments']['captures'][0]['invoice_id'], $transaction);
+
                 Cart::instance('shopping')->destroy();
             }
 
@@ -84,7 +85,7 @@ class PaypalPaymentController extends Controller
 
             return response()->json($result);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 422);
         }
@@ -92,7 +93,6 @@ class PaypalPaymentController extends Controller
 
     public function thankYou(Request $order): Renderable
     {
-//        dd($order_id->route('order_id'));
-        return view('thanks', ['order' => $order->route('order_id')]);
+        return view('thanks', ['order' => $order->route('order')]);
     }
 }

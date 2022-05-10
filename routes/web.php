@@ -125,5 +125,5 @@ Route::prefix('paypal')->name('paypal.')->group(static function () {
         ->name('capture');
     Route::get('order/{order}/thankYou', [PaypalPaymentController::class, 'thankYou'])
         ->middleware('auth')->name('thankYou');
-//    can('view', 'order')->
+//->middleware('auth')can('view', 'order')->
 });

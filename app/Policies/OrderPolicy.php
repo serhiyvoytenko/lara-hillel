@@ -6,23 +6,91 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Http\Client\Request;
 
 class OrderPolicy
 {
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view any models.
+     *
+     * @param User $user
+     * @return Response|bool
+     */
+    public function viewAny(User $user)
+    {
+        //
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
 //     * @param User $user
 //     * @param Order $order
-//     * @return bool
+     * @return Response|bool
      */
-    public function view(User $user, Order $order): bool
+    public function view(User $user, Order $order): Response|bool
     {
+        dd(app('request'));
         return true;
-        dd(app('request')->get('order'));
-        return $user->id === $order->user_id;
+    }
+
+    /**
+     * Determine whether the user can create models.
+     *
+     * @param User $user
+     * @return Response|bool
+     */
+    public function create(User $user)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @param Order $order
+     * @return Response|bool
+     */
+    public function update(User $user, Order $order)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param Order $order
+     * @return Response|bool
+     */
+    public function delete(User $user, Order $order)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     *
+     * @param User $user
+     * @param Order $order
+     * @return Response|bool
+     */
+    public function restore(User $user, Order $order)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param User $user
+     * @param Order $order
+     * @return Response|bool
+     */
+    public function forceDelete(User $user, Order $order)
+    {
+        //
     }
 }
