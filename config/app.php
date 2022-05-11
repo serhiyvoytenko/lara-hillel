@@ -211,4 +211,5 @@ return [
         // ...
     ])->toArray(),
 
+    'api_latest' => '2',
 ];

@@ -5,17 +5,16 @@ namespace App\Policies;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class OrderPolicy
+class ThankYouPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any models.
      *
-     * @param User $user
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
     {
@@ -25,21 +24,20 @@ class OrderPolicy
     /**
      * Determine whether the user can view the model.
      *
-//     * @param User $user
-//     * @param Order $order
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Order $order): Response|bool
+    public function view(User $user, Order $order)
     {
-        dd(app('request'), $user, $order);
-        return true;
+        dd($user, $order);
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param User $user
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user)
     {
@@ -49,9 +47,9 @@ class OrderPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User $user
-     * @param Order $order
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user, Order $order)
     {
@@ -61,9 +59,9 @@ class OrderPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User $user
-     * @param Order $order
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, Order $order)
     {
@@ -73,9 +71,9 @@ class OrderPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param User $user
-     * @param Order $order
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function restore(User $user, Order $order)
     {
@@ -85,9 +83,9 @@ class OrderPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param User $user
-     * @param Order $order
-     * @return Response|bool
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function forceDelete(User $user, Order $order)
     {

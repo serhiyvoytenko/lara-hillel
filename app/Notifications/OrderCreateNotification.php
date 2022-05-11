@@ -70,7 +70,7 @@ class OrderCreateNotification extends Notification
 //        logs()->info($link);
 
         $route = route('account.order.show', $notifiable);
-
+dd($link, $route);
         return TelegramFile::create()
             ->to($this->user->telegram_id)
             ->content("Hello there!\nYour invoice has been *PAID*")

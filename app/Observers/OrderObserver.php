@@ -16,6 +16,7 @@ class OrderObserver
     {
         $admin = Role::admin()->first()?->users()->first();
 //        OrderCreateNotificationJob::dispatch($order->user, $order)->onQueue('email');
+//        OrderCreateNotificationJob::dispatchSync($order->user, $order);
 //        OrderCreateNotificationJob::dispatch($admin, $order)->onQueue('email');
     }
 
