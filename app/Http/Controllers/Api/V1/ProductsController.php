@@ -7,13 +7,14 @@ use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductsController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $products = Product::all();
+//        dd($request);
+        $products = Product::paginate(10);
 
-        return response()->json($products);
+        return response()->json(['data' => $products]);
     }
 }
 
