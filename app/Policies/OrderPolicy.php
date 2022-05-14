@@ -31,7 +31,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): Response|bool
     {
-        dd(app('request'), $user, $order);
+//        dd(app('request'), $user, $order);
         return true;
     }
 
