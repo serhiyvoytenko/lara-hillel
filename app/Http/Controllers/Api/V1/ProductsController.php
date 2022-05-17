@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function index(Request $request): ProductCollection
+    public function index(): ProductCollection
     {
         return new ProductCollection(Product::paginate(5));
     }

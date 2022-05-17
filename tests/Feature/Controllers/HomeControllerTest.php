@@ -30,7 +30,7 @@ class HomeControllerTest extends TestCase
         $response_home = $this->get('/home');
 
         $response->assertStatus(200);
-        $response_home->assertStatus(302)->assertRedirect('login');
+        $response_home->assertStatus(200);
     }
 
     public function test_with_auth_user(): void
