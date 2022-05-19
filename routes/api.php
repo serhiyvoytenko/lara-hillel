@@ -20,10 +20,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', App\Http\Controllers\Api\AuthController::class)->name('login');
 
-Route::middleware(['auth:sanctum', 'api', 'api_version:v2'])->prefix('api/v2')->group(function () {
-    require base_path('routes/api_v2.php');
-});
+Route::middleware(['auth:sanctum', 'api', 'api_version:v2'])
+    ->prefix('v2')
+    ->name('api.v2.')
+    ->group(function () {
+        require base_path('routes/Api_V2/api_v2_auth.php');
+    });
 
-Route::middleware(['auth:sanctum', 'api', 'api_version:v1'])->prefix('api/v1')->group(function () {
-    require base_path('routes/api_v1.php');
-});
+Route::middleware(['auth:sanctum', 'api', 'api_version:v1'])
+    ->prefix('v1')
+    ->name('api.v1.')
+    ->group(function () {
+        require base_path('routes/Api_V1/api_v1_auth.php');
+    });
+
+Route::middleware(['auth:sanctum', 'isAdmin', 'api', 'api_version:v2'])
+    ->prefix('v2')
+    ->name('api.v2.')
+    ->group(function () {
+        require base_path('routes/Api_V2/api_v2_admin.php');
+    });
+
+Route::middleware(['auth:sanctum', 'isAdmin', 'api', 'api_version:v1'])
+    ->prefix('v1')
+    ->name('api.v1.')
+    ->group(function () {
+        require base_path('routes/Api_V1/api_v1_admin.php');
+    });
+
+Route::middleware(['api', 'api_version:v2'])
+    ->prefix('v2')
+    ->name('api.v2.')
+    ->group(function () {
+        require base_path('routes/Api_V2/api_v2_public.php');
+    });
+
+Route::middleware(['api', 'api_version:v1'])
+    ->prefix('v1')
+    ->name('api.v1.')
+    ->group(function () {
+        require base_path('routes/Api_V1/api_v1_public.php');
+    });
