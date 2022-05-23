@@ -78,9 +78,9 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => 'Towne, Smith and Ebert',
-            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
-            'code'          => '41-1985581',
+            'name'          => 'LTD PEBS',
+            'address'       => '60230, Ukraine, Main street 20, fl. 10',
+            'code'          => '58-65656565',
             'vat'           => '123456789',
             'phone'         => '760-355-3930',
             'custom_fields' => [
@@ -91,6 +91,7 @@ return [
                  * attribute => value
                  */
                 'SWIFT' => 'BANK101',
+                'Privat24' => 'BankOf',
             ],
         ],
     ],

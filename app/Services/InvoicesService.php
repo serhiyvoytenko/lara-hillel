@@ -22,20 +22,37 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
     {
         $customer = new Buyer(
             [
-                'name' => 'John Doe',
+                'name' => $order->user()->first()->fullName,
                 'custom_fields' => [
-                    'email' => 'test@example.com',
+                    'email' => $order->user()->first()->email,
+                    'phone' => $order->user()->first()->phone,
+                    'country' => $order->country,
+                    'city' => $order->city,
+                    'address' => $order->address,
                 ],
             ]
         );
 
-        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+        $notes = [
+            'your multiline' ,
+            'additional notes' ,
+            'in regards of delivery or something else' ,
+        ];
+
+        $notes = implode('<br>', $notes);
+
+        $items = [
+            (new InvoiceItem())->title('Service 1')->pricePerUnit(2),
+            (new InvoiceItem())->title('Service 2')->pricePerUnit(2)
+        ];
 
         return Invoice::make()
+            ->logo('https://content.rozetka.com.ua/widget_logotype/full/original/262025937.svg')
             ->buyer($customer)
             ->discountByPercent(10)
             ->taxRate(15)
             ->shipping(1.99)
-            ->addItem($item);
+            ->addItems($items)
+            ->notes($notes);
     }
 }
