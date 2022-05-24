@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Storage;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -34,25 +35,33 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
         );
 
         $notes = [
-            'your multiline' ,
-            'additional notes' ,
-            'in regards of delivery or something else' ,
+            'your multiline',
+            'additional notes',
+            'in regards of delivery or something else',
         ];
 
         $notes = implode('<br>', $notes);
 
         $items = [
-            (new InvoiceItem())->title('Service 1')->pricePerUnit(2),
-            (new InvoiceItem())->title('Service 2')->pricePerUnit(2)
+//            (new InvoiceItem())->title('Service 1')->pricePerUnit(2),
         ];
 
-        return Invoice::make()
+
+        foreach ($order->products as $product) {
+            $items[] = (new InvoiceItem())
+                ->title($product->title)
+                ->pricePerUnit($product->price)
+                ->quantity($product->pivot->quantity);
+        }
+
+        $invoice = Invoice::make()
             ->logo('https://content.rozetka.com.ua/widget_logotype/full/original/262025937.svg')
             ->buyer($customer)
-            ->discountByPercent(10)
-            ->taxRate(15)
-            ->shipping(1.99)
             ->addItems($items)
             ->notes($notes);
+
+//        dd(Storage::disk('s3')->files(''));
+        dd(\Storage::disk('s3')->has('/invoice_AA_00001.pdf'));
+        return $invoice;
     }
 }
