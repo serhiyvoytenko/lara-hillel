@@ -58,10 +58,13 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
             ->logo('https://content.rozetka.com.ua/widget_logotype/full/original/262025937.svg')
             ->buyer($customer)
             ->addItems($items)
-            ->notes($notes);
+            ->notes($notes)
+            ->filename(time())
+        ->save('s3');
 
+//        $invoice->save('s3');
 //        dd(Storage::disk('s3')->files(''));
-        dd(\Storage::disk('s3')->has('/invoice_AA_00001.pdf'));
+        dd($invoice->filename, Storage::disk('s3')->files());
         return $invoice;
     }
 }
