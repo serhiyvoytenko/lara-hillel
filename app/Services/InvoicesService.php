@@ -64,7 +64,7 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
 
 //        $invoice->save('s3');
 //        dd(Storage::disk('s3')->files(''));
-        dd($invoice->filename, Storage::disk('s3')->files());
+//        dd($invoice->filename, Storage::disk('s3')->files());
         return $invoice;
     }
 }
