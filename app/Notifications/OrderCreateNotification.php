@@ -37,8 +37,7 @@ class OrderCreateNotification extends Notification
      */
     public function via($notifiable)
     {
-//        return ['mail', 'telegram',];
-        return ['telegram'];
+        return ['mail', 'telegram',];
     }
 
     /**
@@ -65,12 +64,8 @@ class OrderCreateNotification extends Notification
         $invoice = $invoicesService->generate($notifiable)->save('s3');
         $link = $awsPublicLink->generate($invoice->filename);
 
-//        logs()->info($notifiable->id);
-        logs()->info($invoice->filename);
-//        logs()->info($link);
-
         $route = route('account.order.show', $notifiable);
-//dd($link, $route);
+
         return TelegramFile::create()
             ->to($this->user->telegram_id)
             ->content("Hello there!\nYour invoice has been *PAID*")

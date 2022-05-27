@@ -21,7 +21,7 @@ class OrdersController extends Controller
 {
     public function index(): Renderable
     {
-        $orders = Order::where('user_id', Auth::id())->paginate(10);
+        $orders = Order::where('user_id', Auth::id())->paginate(20);
 
         return view('account.view-orders', compact('orders'));
     }

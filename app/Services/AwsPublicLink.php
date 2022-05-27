@@ -13,7 +13,6 @@ class AwsPublicLink implements Contracts\AwsPublicLinkInterface
 
     public function generate(string $filePath): string
     {
-//        $bucket = config('filesystems.disks.s3.bucket');
         $bucket = 'laravel-bucket-hillel';
         logs()->info($bucket);
         logs()->info($filePath);

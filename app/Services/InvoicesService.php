@@ -42,10 +42,7 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
 
         $notes = implode('<br>', $notes);
 
-        $items = [
-//            (new InvoiceItem())->title('Service 1')->pricePerUnit(2),
-        ];
-
+        $items = [];
 
         foreach ($order->products as $product) {
             $items[] = (new InvoiceItem())
@@ -54,13 +51,12 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
                 ->quantity($product->pivot->quantity);
         }
 
-        $invoice = Invoice::make()
+        return Invoice::make()
             ->logo('https://content.rozetka.com.ua/widget_logotype/full/original/262025937.svg')
             ->buyer($customer)
             ->addItems($items)
             ->notes($notes)
-            ->filename(time());
-
-        return $invoice;
+            ->filename(time())
+            ->taxRate(5);
     }
 }

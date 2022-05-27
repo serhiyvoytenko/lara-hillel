@@ -22,7 +22,7 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $result = DB::transaction(function () use ($request) {
             $user = auth()->user();
-            $total = Cart::instance('cart')->total(2, '.', '');
+            $total = Cart::instance('shopping')->total(2, '.', '');
 
             $status = OrderStatus::defaultStatus()->first();
 
