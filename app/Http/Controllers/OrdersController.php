@@ -18,7 +18,6 @@ class OrdersController extends Controller
      */
     public function __invoke(CreateOrderRequest $request, OrderRepositoryInterface $orderRepository): Renderable
     {
-//        dd($request);
         try {
             $orderRepository->create($request->validated());
             return view('thanks')->with('message', 'Thank you for purchase! We will contact you.');

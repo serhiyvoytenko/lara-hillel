@@ -37,7 +37,7 @@ class OrderCreateNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'telegram',];
+        return ['telegram', 'mail',];
     }
 
     /**
@@ -50,7 +50,9 @@ class OrderCreateNotification extends Notification
     {
         $notification = isAdmin($this->user->id) ? NewOrderForAdmin::class : NewOrderForCustomer::class;
 
-        return (new $notification($this->orderId, $this->user->full_name))->to($this->user);
+        return (new $notification($this->orderId, $this->user->full_name))
+            ->to($this->user)
+            ->attachFromStorageDisk('s3', $notifiable->invoice_id . '.pdf');
     }
 
     /**

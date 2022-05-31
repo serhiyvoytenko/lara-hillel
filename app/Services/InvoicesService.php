@@ -56,7 +56,7 @@ class InvoicesService implements Contracts\InvoicesServiceInterface
             ->buyer($customer)
             ->addItems($items)
             ->notes($notes)
-            ->filename(time())
+            ->filename($order->invoice_id)
             ->taxRate(5);
     }
 }

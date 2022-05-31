@@ -39,7 +39,7 @@ class PaypalPaymentController extends Controller
     public function create(CreateOrderRequest $request, OrderRepositoryInterface $repository): JsonResponse
     {
         $total = Cart::instance('shopping')->total(2, '.', '');
-        $invoiceId = 'invoice_id_' . time() . Auth::id();
+        $invoiceId = time() . '_' . Auth::id();
         $paypalOrder = $this->paypalClient->createOrder([
             'intent' => 'CAPTURE',
             'purchase_units' => [
